@@ -149,15 +149,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     break;
 
                                 case "false":
-                                    Toast.makeText(getApplicationContext(), "Your login credentials are not valid", Toast.LENGTH_SHORT).show();
-                                    break;
-
-                                case "block":
-                                    Toast.makeText(getApplicationContext(), "Your account is currently blocked \nPlease contact administrative.", Toast.LENGTH_LONG).show();
-                                    break;
-
-                                case "xxx":
-                                    Toast.makeText(getApplicationContext(), "You are not a registered user. \nPlease register first.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "You are not a registered user", Toast.LENGTH_SHORT).show();
                                     break;
 
                                 default:
