@@ -23,6 +23,7 @@ class DebitFormActivity : AppCompatActivity() {
 
     private lateinit var getUserList: UserListFetch
     private var userList: ArrayList<User> = ArrayList()
+    private var selectedUser:User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,11 +105,26 @@ class DebitFormActivity : AppCompatActivity() {
         autoCustomerName.onItemClickListener =
                 AdapterView.OnItemClickListener { parent, view, position, id ->
 
+                    selectedUser = parent.getItemAtPosition(position) as User?
+                    if (selectedUser!=null){
+
+                        autoCustomerName.setText(selectedUser?.name)
+                        autoCustomerMobile.setText(selectedUser?.mobile)
+                        edtAdress.setText(selectedUser?.address)
+                        edtCity.setText(selectedUser?.city)
+
+                    }
+
 
                 }
 
         autoCustomerMobile.onItemClickListener =
                 AdapterView.OnItemClickListener { parent, view, position, id ->
+
+                    autoCustomerName.setText(selectedUser?.name)
+                    autoCustomerMobile.setText(selectedUser?.mobile)
+                    edtAdress.setText(selectedUser?.address)
+                    edtCity.setText(selectedUser?.city)
 
 
                 }
