@@ -181,7 +181,7 @@ class CreditFormActivity : AppCompatActivity() {
 
                                     debitList = response.body() as ArrayList<History>
                                     if (debitList.size > 0) {
-                                        rvDebitList.adapter = CreditListAdapter(debitList)
+                                        rvDebitList.adapter = DebitListAdapter(debitList)
 
 
                                     } else {
@@ -262,7 +262,7 @@ class CreditFormActivity : AppCompatActivity() {
 
                                     debitList = response.body() as ArrayList<History>
                                     if (debitList.size > 0) {
-                                        rvDebitList.adapter = CreditListAdapter(debitList)
+                                        rvDebitList.adapter = DebitListAdapter(debitList)
 
 
                                     } else {
