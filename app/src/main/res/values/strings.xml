@@ -20,4 +20,8 @@
     <string name="total">Total</string>
     <string name="desc">Description or Remark</string>
     <string name="save">Save</string>
+    <string name="credit">Credit</string>
+    <string name="debit">Debit</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="pay">Pay</string>
 </resources>
