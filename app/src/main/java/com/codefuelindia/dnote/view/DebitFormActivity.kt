@@ -4,8 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent
-import android.view.View
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
+import android.view.*
 import android.widget.AdapterView
 import com.codefuelindia.dnote.Common.AutoCompleteAdapter
 import com.codefuelindia.dnote.Common.ProductListFetch
@@ -22,9 +24,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.widget.TextView
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import com.codefuelindia.dnote.Model.DebitModel
 
 
 class DebitFormActivity : AppCompatActivity() {
@@ -34,7 +35,9 @@ class DebitFormActivity : AppCompatActivity() {
     private var userList: ArrayList<User> = ArrayList()
     private var productList: ArrayList<Product> = ArrayList()
     private var selectedUser: User? = null
-    private var selectedProduct:Product? = null
+    private var selectedProduct: Product? = null
+    private var debitList: ArrayList<DebitModel> = ArrayList()
+    private lateinit var customAdapter: CustomAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +52,15 @@ class DebitFormActivity : AppCompatActivity() {
 
         toolbar?.title = "Debit form"
         toolbar?.setNavigationOnClickListener { finish() }
+
+        rvList?.layoutManager = LinearLayoutManager(
+            this@DebitFormActivity,
+            LinearLayoutManager.VERTICAL, false
+        )
+
+        customAdapter = CustomAdapter(debitList)
+        rvList.adapter = customAdapter
+
 
         edtAdress.setOnTouchListener { v, event ->
 
@@ -124,8 +136,10 @@ class DebitFormActivity : AppCompatActivity() {
 
                     if (productList.size > 0) {
 
-                        spProduct.adapter = MyCustomAdapter66(this@DebitFormActivity,
-                            R.layout.row_autocomplete_user,productList)
+                        spProduct.adapter = MyCustomAdapter66(
+                            this@DebitFormActivity,
+                            R.layout.row_autocomplete_user, productList
+                        )
 
                     }
 
@@ -173,26 +187,93 @@ class DebitFormActivity : AppCompatActivity() {
 
 
         //  product list spinner
-        spProduct.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
+        spProduct.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
 
 
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
+                selectedProduct = parent?.getItemAtPosition(position) as Product
 
+                edtRate.setText(selectedProduct?.rate)
 
 
             }
 
         }
 
+        btnAddDebit?.setOnClickListener {
 
+            if (selectedUser != null && selectedProduct != null && edtRate.text.toString().trim().isNotEmpty()
+                && edtQty.text.toString().trim().isNotEmpty()
+                && edtQty.text.toString().toInt() != 0
+                && edtRate.text.toString().toDouble() != 0.0
+            ) {
+
+                // add in recyclerview
+
+                val debitModel = DebitModel()
+                debitModel.name = selectedProduct?.name
+                debitModel.qty = edtQty.text.toString().trim()
+                debitModel.rate = edtRate.text.toString().trim()
+                debitModel.total = (edtQty.text.toString().toDouble() * edtRate.text.toString().toDouble()).toString()
+
+                debitList.add(debitModel)
+
+                customAdapter.notifyDataSetChanged()
+
+                var sum = 0.0
+
+                for (item in debitList) {
+
+                    sum += item.total.toDouble()
+
+                }
+
+                if (sum > 0) {
+
+                    tvGrandTotal.text = "Grand Total: ".plus(sum.toString())
+
+                }
+
+
+            }
+
+
+        }
 
 
     }
+
+    // ----------------------menu ------------------------------//
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.menu_refresh_debitlist, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        if (item!!.itemId == R.id.action_menu_refresh) {
+
+            debitList.clear()
+            customAdapter.notifyDataSetChanged()
+            tvGrandTotal.text = ""
+
+            return true
+
+        }
+
+
+
+        return false
+    }
+
 
     inner class MyCustomAdapter66 internal constructor(
         context: Context, textViewResourceId: Int,
@@ -213,7 +294,7 @@ class DebitFormActivity : AppCompatActivity() {
             return getCustomView(position, convertView, parent)
         }
 
-        internal fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
+        private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
             // TODO Auto-generated method stub
             //return super.getView(position, convertView, parent);
 
@@ -224,6 +305,62 @@ class DebitFormActivity : AppCompatActivity() {
 
 
             return row
+        }
+    }
+
+    // ------------------------------ recycler view---------------------------------------//
+
+
+    class CustomAdapter(private val dataSet: ArrayList<DebitModel>) :
+        RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+
+        /**
+         * Provide a reference to the type of views that you are using (custom ViewHolder)
+         */
+        class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+            val tvName: TextView
+            val tvRate: TextView
+            val tvQty: TextView
+            val tvTotal: TextView
+
+            init {
+                // Define click listener for the ViewHolder's View.
+                v.setOnClickListener { Log.d(TAG, "Element $adapterPosition clicked.") }
+                tvName = v.findViewById(R.id.tvProductName)
+                tvRate = v.findViewById(R.id.tvRate)
+                tvQty = v.findViewById(R.id.tvQty)
+                tvTotal = v.findViewById(R.id.tvTotal)
+            }
+        }
+
+        // Create new views (invoked by the layout manager)
+        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+            // Create a new view.
+            val v = LayoutInflater.from(viewGroup.context)
+                .inflate(R.layout.row_debit_header, viewGroup, false)
+
+            return ViewHolder(v)
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+            Log.d(TAG, "Element $position set.")
+
+            // Get element from your dataset at this position and replace the contents of the view
+            // with that element
+            viewHolder.tvName.text = dataSet[position].name
+            viewHolder.tvRate.text = dataSet[position].rate
+            viewHolder.tvQty.text = dataSet[position].qty
+            viewHolder.tvTotal.text = dataSet[position].total
+
+
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        override fun getItemCount() = dataSet.size
+
+        companion object {
+            private val TAG = "CustomAdapter"
         }
     }
 
