@@ -25,12 +25,14 @@
                 android:label="@string/title_activity_dash_navigation"
                 android:theme="@style/AppTheme.NoActionBar">
 
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.VIEW"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
 
         </activity>
     </application>
