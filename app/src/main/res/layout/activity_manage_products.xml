@@ -28,4 +28,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/manageProducts_fab_addProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="35dp"
+            android:src="@drawable/ic_add_white"
+            android:layout_marginBottom="30dp"/>
+
 </RelativeLayout>

@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import com.codefuelindia.dnote.R;
 import com.codefuelindia.dnote.view.CreditFormActivity;
 import com.codefuelindia.dnote.view.DebitFormActivity;
+import com.codefuelindia.dnote.view.ManageCustomersActivity;
+import com.codefuelindia.dnote.view.ManageProductsActivity;
 
 
 public class DashboardFragment extends Fragment {
@@ -92,13 +94,13 @@ public class DashboardFragment extends Fragment {
     }
 
     private void methodCustomers() {
-        /*Intent i = new Intent(context, DebitFormActivity.class);
-        startActivity(i);*/
+        Intent i = new Intent(context, ManageCustomersActivity.class);
+        startActivity(i);
     }
 
     private void methodProducts() {
-        /*Intent i = new Intent(context, DebitFormActivity.class);
-        startActivity(i);*/
+        Intent i = new Intent(context, ManageProductsActivity.class);
+        startActivity(i);
     }
 
 
