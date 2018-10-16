@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DNote</string>
+    <string name="title_activity_credit_form">CreditFormActivity</string>
+    <string name="title_activity_debit_form">DebitFormActivity</string>
 </resources>
