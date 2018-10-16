@@ -7,6 +7,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_debit_form"
-        tools:context=".constants.view.DebitFormActivity">
+        tools:context=".view.DebitFormActivity">
 
 </android.support.constraint.ConstraintLayout>

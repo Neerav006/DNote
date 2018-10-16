@@ -9,7 +9,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".constants.view.MainActivity">
+        <activity android:name="com.codefuelindia.dnote.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -17,12 +17,12 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".constants.view.CreditFormActivity"
+                android:name="com.codefuelindia.dnote.view.CreditFormActivity"
                 android:label="@string/title_activity_credit_form"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-                android:name=".constants.view.DebitFormActivity"
+                android:name="com.codefuelindia.dnote.view.DebitFormActivity"
                 android:label="@string/title_activity_debit_form"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>

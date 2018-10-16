@@ -1,4 +1,4 @@
-package com.codefuelindia.dnote.constants.view
+package com.codefuelindia.dnote.view
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
