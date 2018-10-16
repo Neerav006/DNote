@@ -34,9 +34,11 @@
                         android:padding="10dp">
 
                     <ImageView
-                            android:layout_width="60dp"
+                            android:layout_width="75dp"
                             android:layout_height="70dp"
-                            android:src="@drawable/ic_launcher_background"/>
+                            android:src="@drawable/dash_menu_debit"
+                            android:padding="5dp"
+                            android:background="@color/colorPrimary"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -44,7 +46,7 @@
                             android:layout_marginTop="8dp"
                             android:gravity="center"
                             android:text="Debit"
-                            android:textColor="@color/font_grey"
+                            android:textColor="@color/raisinBlackLight"
                             android:textSize="18sp"/>
 
                 </LinearLayout>
@@ -68,9 +70,11 @@
                         android:padding="10dp">
 
                     <ImageView
-                            android:layout_width="70dp"
+                            android:layout_width="75dp"
                             android:layout_height="70dp"
-                            android:src="@drawable/ic_launcher_background"/>
+                            android:padding="5dp"
+                            android:src="@drawable/dash_menu_credit"
+                            android:background="@color/colorPrimary"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -78,7 +82,7 @@
                             android:layout_marginTop="8dp"
                             android:gravity="center"
                             android:text="Credit"
-                            android:textColor="@color/font_grey"
+                            android:textColor="@color/raisinBlackLight"
                             android:textSize="18sp"/>
 
                 </LinearLayout>
@@ -112,9 +116,11 @@
                         android:padding="10dp">
 
                     <ImageView
-                            android:layout_width="60dp"
+                            android:layout_width="75dp"
                             android:layout_height="70dp"
-                            android:src="@drawable/ic_launcher_background"/>
+                            android:padding="5dp"
+                            android:src="@drawable/dash_menu_customers"
+                            android:background="@color/colorPrimary"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -122,7 +128,7 @@
                             android:layout_marginTop="8dp"
                             android:gravity="center"
                             android:text="Manage\nCustomers"
-                            android:textColor="@color/font_grey"
+                            android:textColor="@color/raisinBlackLight"
                             android:textSize="18sp"/>
 
                 </LinearLayout>
@@ -146,9 +152,11 @@
                         android:padding="10dp">
 
                     <ImageView
-                            android:layout_width="70dp"
+                            android:layout_width="75dp"
                             android:layout_height="70dp"
-                            android:src="@drawable/ic_launcher_background"/>
+                            android:padding="5dp"
+                            android:src="@drawable/dash_menu_products"
+                            android:background="@color/colorPrimary"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -156,7 +164,7 @@
                             android:layout_marginTop="8dp"
                             android:gravity="center"
                             android:text="Manage\nProducts"
-                            android:textColor="@color/font_grey"
+                            android:textColor="@color/raisinBlackLight"
                             android:textSize="18sp"/>
 
                 </LinearLayout>

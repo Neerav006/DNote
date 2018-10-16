@@ -11,7 +11,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".view.LoginActivity">
+        <activity android:name=".view.LoginActivity"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
@@ -22,9 +23,11 @@
         <activity
                 android:name=".view.DashNavigationActivity"
                 android:label="@string/title_activity_dash_navigation"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
+                android:screenOrientation="portrait"
                 android:name=".view.CreditFormActivity"
                 android:label="@string/title_activity_credit_form"
                 android:theme="@style/AppTheme.NoActionBar">
@@ -32,13 +35,20 @@
         <activity
                 android:name=".view.DebitFormActivity"
                 android:label="@string/title_activity_debit_form"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".view.ManageProductsActivity">
+        <activity android:name=".view.ManageProductsActivity"
+                  android:label="Products"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.AddProductActivity">
+        <activity android:name=".view.AddProductActivity"
+                  android:label="Add Product"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.ManageCustomersActivity">
+        <activity android:name=".view.ManageCustomersActivity"
+                  android:label="Customers"
+                  android:screenOrientation="portrait">
         </activity>
     </application>
 
