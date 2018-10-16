@@ -8,36 +8,46 @@ public class User {
 @SerializedName("id")
 @Expose
 private String id;
+
 @SerializedName("date_time")
 @Expose
 private String dateTime;
+
 @SerializedName("name")
 @Expose
 private String name;
+
 @SerializedName("mobile")
 @Expose
 private String mobile;
+
 @SerializedName("password")
 @Expose
 private String password;
 @SerializedName("address")
 @Expose
 private String address;
+
 @SerializedName("city")
 @Expose
 private String city;
+
 @SerializedName("total_payment")
 @Expose
 private String totalPayment;
+
 @SerializedName("collected_payment")
 @Expose
 private String collectedPayment;
+
 @SerializedName("remaining_payment")
 @Expose
 private String remainingPayment;
+
 @SerializedName("status")
 @Expose
 private String status;
+
 @SerializedName("role")
 @Expose
 private String role;
