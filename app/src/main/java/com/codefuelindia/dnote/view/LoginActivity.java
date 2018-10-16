@@ -9,32 +9,39 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.codefuelindia.dnote.Common.RetrofitClient;
 import com.codefuelindia.dnote.Common.SessionManager;
+import com.codefuelindia.dnote.Model.ResCommon;
 import com.codefuelindia.dnote.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //LoginAPI loginAPI;
-    private static final String BASE_URL = "http://code-fuel.in/healthbotics/api/auth/";
-    //http://192.168.0.103/laravel/public/api/auth/login     local URL
+    LoginAPI loginAPI;
+    private static final String BASE_URL = "http://code-fuel.in/dnote/api/";
 
     SessionManager sessionManager;
 
-    EditText editText_email, editText_password;
+    EditText editText_number, editText_password;
     Button button_login;
-    TextView textView_forget_pwd, textView_signUp_here;
+    TextView textView_forget_pwd;
 
-    String email, password;
+    String number, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //loginAPI = getLoginAPIService(BASE_URL);
+        loginAPI = getLoginAPIService(BASE_URL);
 
         sessionManager = new SessionManager(this);
 
@@ -51,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             finish();
         }
 
-        editText_email = findViewById(R.id.login_et_email);
+        editText_number = findViewById(R.id.login_et_number);
         editText_password = findViewById(R.id.login_et_password);
         button_login = findViewById(R.id.login_btn_login);
         textView_forget_pwd = findViewById(R.id.login_tv_forgot_pwd);
@@ -87,16 +94,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void method_login() {
 
-        email = editText_email.getText().toString();
+        number = editText_number.getText().toString();
         password = editText_password.getText().toString();
 
-        if (email.equals("")) {
-            editText_email.setError("E-mail is required");
-            editText_email.requestFocus();
+        if (number.equals("")) {
+            editText_number.setError("Number is required");
+            editText_number.requestFocus();
 
-        } else if (!isValidEmail(email)) {
-            editText_email.setError("Enter a valid e-mail address");
-            editText_email.requestFocus();
+        } else if (!isValidNumber(number)) {
+            editText_number.setError("Enter a valid number");
+            editText_number.requestFocus();
 
         } else if (password.equals("")) {
             editText_password.setError("Password is required");
@@ -109,18 +116,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
 
             final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Loading");
+            progressDialog.setMessage("Logging you in...");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
-        //    BodyLogin bodyLogin = new BodyLogin(email, password, true);
 
-            /*loginAPI.login_user(bodyLogin).enqueue(new Callback<ResCommon>() {
+            loginAPI.login_user(number, password).enqueue(new Callback<ResCommon>() {
                 @Override
                 public void onResponse(Call<ResCommon> call, Response<ResCommon> response) {
 
                     progressDialog.dismiss();
-
 
                     if (response.isSuccessful()) {
 
@@ -129,15 +134,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             switch (response.body().getMsg()) {
 
                                 case "true":
-                                    String name, token, u_id;
+                                    String name, number, u_id;
                                     name = response.body().getName();
-                                    token = response.body().getAccess_token();
+                                    number = response.body().getNumber();
                                     u_id = response.body().getU_id();
 
                                     finish();
-                                    sessionManager.createLoginSession(name, token, u_id);
+                                    sessionManager.createLoginSession(name, number, u_id);
 
-                                    Intent i = new Intent(LoginActivity.this, ChooseDashActivity.class);
+                                    Intent i = new Intent(LoginActivity.this, DashNavigationActivity.class);
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(i);
@@ -179,7 +184,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Connection error", Toast.LENGTH_SHORT).show();
                 }
-            });*/
+            });
 
         }
 
@@ -188,7 +193,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void method_forgot_pwd() {
         Toast.makeText(this, "Forgot Password!", Toast.LENGTH_SHORT).show();
     }
-
 
     private boolean isValidNumber(String number) {
         Pattern p;
@@ -212,14 +216,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 //---------------------------------------- APIs -----------------------------------------------//
 
-    /*LoginAPI getLoginAPIService(String baseUrl) {
+    LoginAPI getLoginAPIService(String baseUrl) {
         return RetrofitClient.getClient(baseUrl).create(LoginAPI.class);
     }
 
     interface LoginAPI {
-        @Headers("X-Requested-With:XMLHttpRequest")
-        @POST("login")
-        Call<ResCommon> login_user(@Body BodyLogin bodyLogin);
-    }*/
+        @POST("adminLogin")
+        @FormUrlEncoded
+        Call<ResCommon> login_user(@Field("mobile") String mobile,
+                                   @Field("pass") String pass
+        );
+    }
 
 }

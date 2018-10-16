@@ -39,12 +39,12 @@
             android:layout_marginBottom="8dp">
 
         <EditText
-                android:id="@+id/login_et_email"
+                android:id="@+id/login_et_number"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Mobile Number"
                 android:inputType="number"
-                android:maxLength="30"
+                android:maxLength="10"
                 android:singleLine="true"/>
 
     </android.support.design.widget.TextInputLayout>
