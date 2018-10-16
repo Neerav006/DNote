@@ -14,10 +14,13 @@ class DebitFormActivity : AppCompatActivity() {
         setContentView(R.layout.activity_debit_form)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        toolbar?.title = "Debit form"
+        toolbar?.setNavigationOnClickListener { finish() }
+
+
     }
 
 }
