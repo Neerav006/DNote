@@ -1,5 +1,8 @@
 package com.codefuelindia.dnote.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class DebitModel {
 
     public String getName() {
@@ -34,8 +37,16 @@ public class DebitModel {
         this.total = total;
     }
 
+    @SerializedName("name")
+    @Expose
     private String name;
+    @SerializedName("rate")
+    @Expose
     private String rate;
+    @SerializedName("qty")
+    @Expose
     private String qty;
+    @SerializedName("total")
+    @Expose
     private String total;
 }

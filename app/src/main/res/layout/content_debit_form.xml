@@ -25,7 +25,7 @@
         />
         <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
-                android:layout_height="64dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintTop_toBottomOf="@id/autoCustomerName"
                 app:layout_constraintStart_toStartOf="parent"
@@ -34,13 +34,13 @@
 
             <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
-                    android:inputType="textMultiLine"
-                    android:lines="3"
+                    android:inputType="text"
+                    android:lines="1"
                     android:overScrollMode="always"
                     android:scrollbarStyle="insideInset"
                     android:scrollbars="vertical"
                     android:layout_height="wrap_content"
-                    android:hint="@string/address" android:id="@+id/edtAdress"/>
+                    android:hint="@string/address" android:id="@+id/edtAdress" android:textSize="14sp"/>
         </android.support.design.widget.TextInputLayout>
         <AutoCompleteTextView
                 android:inputType="number"
@@ -53,7 +53,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="2dp" app:layout_constraintStart_toEndOf="@+id/autoCustomerName"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintTop_toTopOf="@+id/autoCustomerName"/>
+                app:layout_constraintTop_toTopOf="@+id/autoCustomerName" android:textSize="14sp"/>
         <AutoCompleteTextView
                 android:completionThreshold="2"
                 android:inputType="text"
@@ -64,7 +64,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/autoCustomerMobile"
                 android:layout_marginStart="8dp" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/tvUserPurchaseAmount"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvUserPurchaseAmount" android:textSize="14sp"/>
         <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:gravity="bottom"
@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:inputType="text"
                     android:layout_height="wrap_content"
-                    android:hint="@string/city" android:id="@+id/edtCity"/>
+                    android:hint="@string/city" android:id="@+id/edtCity" android:textSize="14sp"/>
         </android.support.design.widget.TextInputLayout>
 
 
@@ -97,9 +97,22 @@
             <LinearLayout android:weightSum="2" android:orientation="horizontal" android:layout_width="match_parent"
                           android:layout_height="wrap_content">
 
+                <TextView  android:layout_gravity="center" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                          android:text="Add product" android:textStyle="bold"/>
+
                 <Spinner android:layout_gravity="center" android:layout_weight="1" android:id="@+id/spProduct"
                          android:layout_width="0dp"
                          android:layout_height="wrap_content"/>
+
+
+
+            </LinearLayout>
+            <LinearLayout android:layout_marginTop="8dp" android:weightSum="4" android:orientation="horizontal"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content">
+
+
+
                 <android.support.design.widget.TextInputLayout android:layout_width="0dp"
                                                                android:layout_weight="1"
 
@@ -108,15 +121,10 @@
                                                                      android:hint="@string/rate"
                                                                      android:id="@+id/edtRate"
                                                                      android:inputType="numberDecimal"
-                                                                     android:layout_height="wrap_content"/>
+                                                                     android:layout_height="wrap_content"
+                                                                     android:textSize="14sp"/>
 
                 </android.support.design.widget.TextInputLayout>
-
-
-            </LinearLayout>
-            <LinearLayout android:layout_marginTop="8dp" android:weightSum="3" android:orientation="horizontal"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout android:layout_width="0dp"
                                                                android:layout_weight="1"
@@ -126,20 +134,21 @@
                                                                      android:id="@+id/edtQty"
                                                                      android:hint="@string/quantity"
                                                                      android:inputType="number"
-                                                                     android:layout_height="wrap_content"/>
+                                                                     android:layout_height="wrap_content"
+                                                                     android:textSize="14sp"/>
 
 
                 </android.support.design.widget.TextInputLayout>
 
 
-                <TextView android:layout_gravity="center" android:textStyle="bold" android:layout_width="0dp"
-                          android:layout_weight="1" android:id="@+id/tvTotal"
+                <TextView android:gravity="center" android:layout_gravity="center" android:textStyle="bold" android:layout_width="0dp"
+                          android:layout_weight="1.5" android:id="@+id/tvTotal"
                           tools:text="Total: 200" android:layout_height="wrap_content"/>
 
 
-                <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:background="@android:color/holo_red_dark"
-                        android:layout_weight="1"
+                <ImageView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                             android:src="@drawable/ic_add_box_black_24dp"
                         android:textColor="@android:color/white"
                         android:id="@+id/btnAddDebit" android:text="@string/add"/>
 
@@ -182,15 +191,20 @@
                       android:layout_marginTop="8dp">
 
             <android.support.design.widget.TextInputLayout android:layout_width="0dp"
+                                                           android:background="#E8EAED"
                                                            android:layout_weight="2"
+                                                           android:layout_marginStart="8dp"
                                                            android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
                                                                  android:id="@+id/edtDescription"
                                                                  android:inputType="textMultiLine"
-                                                                 android:lines="3"
+                                                                 android:lines="2"
+                                                                 android:gravity="top"
+                                                                 android:textColorHint="@android:color/black"
                                                                  android:hint="@string/desc"
-                                                                 android:layout_height="wrap_content"/>
+                                                                 android:layout_height="wrap_content"
+                                                                 android:textColor="@android:color/black"/>
 
 
             </android.support.design.widget.TextInputLayout>

@@ -25,6 +25,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.widget.TextView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import com.codefuelindia.dnote.Model.DebitModel
 
 
@@ -177,11 +178,15 @@ class DebitFormActivity : AppCompatActivity() {
         autoCustomerMobile.onItemClickListener =
                 AdapterView.OnItemClickListener { parent, view, position, id ->
 
-                    autoCustomerName.setText(selectedUser?.name)
-                    autoCustomerMobile.setText(selectedUser?.mobile)
-                    edtAdress.setText(selectedUser?.address)
-                    edtCity.setText(selectedUser?.city)
+                    selectedUser = parent.getItemAtPosition(position) as User?
+                    if (selectedUser != null) {
 
+                        autoCustomerName.setText(selectedUser?.name)
+                        autoCustomerMobile.setText(selectedUser?.mobile)
+                        edtAdress.setText(selectedUser?.address)
+                        edtCity.setText(selectedUser?.city)
+
+                    }
 
                 }
 
@@ -206,7 +211,12 @@ class DebitFormActivity : AppCompatActivity() {
 
         btnAddDebit?.setOnClickListener {
 
-            if (selectedUser != null && selectedProduct != null && edtRate.text.toString().trim().isNotEmpty()
+
+            MyConstants.hideSoftKeyBoard(this@DebitFormActivity.currentFocus, this@DebitFormActivity)
+
+
+
+            if (selectedProduct != null && edtRate.text.toString().trim().isNotEmpty()
                 && edtQty.text.toString().trim().isNotEmpty()
                 && edtQty.text.toString().toInt() != 0
                 && edtRate.text.toString().toDouble() != 0.0
@@ -268,6 +278,11 @@ class DebitFormActivity : AppCompatActivity() {
             return true
 
         }
+        else if (item!!.itemId == R.id.action_menu_save){
+
+
+
+        }
 
 
 
@@ -311,25 +326,50 @@ class DebitFormActivity : AppCompatActivity() {
     // ------------------------------ recycler view---------------------------------------//
 
 
-    class CustomAdapter(private val dataSet: ArrayList<DebitModel>) :
+    inner class CustomAdapter(private val dataSet: ArrayList<DebitModel>) :
         RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+
+        var mdataSet: ArrayList<DebitModel> = dataSet
 
         /**
          * Provide a reference to the type of views that you are using (custom ViewHolder)
          */
-        class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+        inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             val tvName: TextView
             val tvRate: TextView
             val tvQty: TextView
             val tvTotal: TextView
+            val ivRemove: ImageView
 
             init {
                 // Define click listener for the ViewHolder's View.
-                v.setOnClickListener { Log.d(TAG, "Element $adapterPosition clicked.") }
+                v.setOnClickListener { }
                 tvName = v.findViewById(R.id.tvProductName)
                 tvRate = v.findViewById(R.id.tvRate)
                 tvQty = v.findViewById(R.id.tvQty)
                 tvTotal = v.findViewById(R.id.tvTotal)
+                ivRemove = v.findViewById(R.id.ivRemove)
+
+                ivRemove.visibility = View.VISIBLE
+
+                ivRemove.setOnClickListener {
+                    dataSet.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
+                    notifyDataSetChanged()
+
+
+                    var sum = 0.0
+
+                    for (items in dataSet) {
+
+                        sum += items.total.toDouble()
+
+                    }
+
+                    tvGrandTotal.text = "Grand Total: ".plus(sum.toString())
+
+
+                }
             }
         }
 
@@ -344,7 +384,6 @@ class DebitFormActivity : AppCompatActivity() {
 
         // Replace the contents of a view (invoked by the layout manager)
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-            Log.d(TAG, "Element $position set.")
 
             // Get element from your dataset at this position and replace the contents of the view
             // with that element
@@ -359,9 +398,11 @@ class DebitFormActivity : AppCompatActivity() {
         // Return the size of your dataset (invoked by the layout manager)
         override fun getItemCount() = dataSet.size
 
-        companion object {
-            private val TAG = "CustomAdapter"
-        }
+
     }
+
+
+    // debit save -- addDebit
+    // credit save -- addCredit id,amount
 
 }

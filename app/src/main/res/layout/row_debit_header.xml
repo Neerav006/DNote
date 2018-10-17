@@ -2,18 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="horizontal"
-              android:weightSum="4"
+              android:weightSum="5"
+              android:layout_marginBottom="10dp"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
 
-    <TextView android:id="@+id/tvProductName" android:padding="2dp" android:gravity="center" android:layout_width="0dp" android:layout_weight="1"
+    <TextView android:id="@+id/tvProductName" android:padding="2dp" android:gravity="center" android:layout_width="0dp" android:layout_weight="1.5"
               android:layout_height="wrap_content" android:text="@string/product_name" android:textStyle="bold"/>
     <TextView android:id="@+id/tvRate" android:padding="2dp" android:gravity="center" android:layout_width="0dp" android:layout_weight="1"
               android:layout_height="wrap_content" android:text="@string/rate" android:textStyle="bold"/>
-    <TextView android:id="@+id/tvQty" android:padding="2dp" android:gravity="center" android:layout_width="0dp" android:layout_weight="1"
-              android:layout_height="wrap_content" android:text="@string/quantity" android:textStyle="bold"/>
-    <TextView android:id="@+id/tvTotal" android:padding="2dp" android:gravity="center" android:layout_width="0dp" android:layout_weight="1"
+    <TextView android:id="@+id/tvQty" android:padding="2dp" android:gravity="center" android:layout_width="0dp" android:layout_weight="0.5"
+              android:layout_height="wrap_content" android:text="Qty" android:textStyle="bold"/>
+    <TextView android:id="@+id/tvTotal" android:padding="2dp" android:gravity="center" android:layout_width="0dp" android:layout_weight="1.5"
               android:layout_height="wrap_content" android:text="@string/total" android:textStyle="bold"/>
+    <ImageView android:id="@+id/ivRemove" android:visibility="gone" android:layout_width="0dp" android:layout_weight="0.5" android:src="@drawable/ic_remove_circle_black_24dp" android:layout_height="wrap_content"/>
 
 </LinearLayout>

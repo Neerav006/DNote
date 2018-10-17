@@ -86,11 +86,12 @@ class CreditFormActivity : AppCompatActivity() {
 
         getUserList.getUserList().enqueue(object : Callback<List<User>> {
             override fun onFailure(call: Call<List<User>>, t: Throwable) {
-
+                progressBar.visibility = View.GONE
 
             }
 
             override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                progressBar.visibility = View.GONE
 
                 if (response.isSuccessful) {
 
@@ -137,13 +138,17 @@ class CreditFormActivity : AppCompatActivity() {
                         edtAdress.setText(selectedUser?.address)
                         edtCity.setText(selectedUser?.city)
 
+                        progressBar.visibility = View.VISIBLE
+
                         creditHistory.getCreditHistory(selectedUser!!.id).enqueue(object : Callback<List<History>> {
                             override fun onFailure(call: Call<List<History>>, t: Throwable) {
-
+                                progressBar.visibility = View.GONE
+                                creditList.clear()
 
                             }
 
                             override fun onResponse(call: Call<List<History>>, response: Response<List<History>>) {
+                                progressBar.visibility = View.GONE
 
                                 if (response.isSuccessful) {
 
@@ -154,12 +159,13 @@ class CreditFormActivity : AppCompatActivity() {
 
 
                                     } else {
-
+                                        creditList.clear()
+                                        rvCreditList.adapter = CreditListAdapter(ArrayList())
                                     }
 
 
                                 } else {
-
+                                    creditList.clear()
 
                                 }
 
@@ -168,14 +174,18 @@ class CreditFormActivity : AppCompatActivity() {
 
 
                         })
+                        progressBar.visibility = View.VISIBLE
 
                         creditHistory.getDebittHistory(selectedUser!!.id).enqueue(object : Callback<List<History>> {
                             override fun onFailure(call: Call<List<History>>, t: Throwable) {
+                                progressBar.visibility = View.GONE
+                                debitList.clear()
 
 
                             }
 
                             override fun onResponse(call: Call<List<History>>, response: Response<List<History>>) {
+                                progressBar.visibility = View.GONE
 
                                 if (response.isSuccessful) {
 
@@ -185,7 +195,8 @@ class CreditFormActivity : AppCompatActivity() {
 
 
                                     } else {
-
+                                        rvDebitList.adapter = CreditListAdapter(ArrayList())
+                                        debitList.clear()
                                     }
 
 
@@ -217,14 +228,18 @@ class CreditFormActivity : AppCompatActivity() {
                         autoCustomerMobile.setText(selectedUser?.mobile)
                         edtAdress.setText(selectedUser?.address)
                         edtCity.setText(selectedUser?.city)
+                        progressBar.visibility = View.VISIBLE
 
                         creditHistory.getCreditHistory(selectedUser!!.id).enqueue(object : Callback<List<History>> {
                             override fun onFailure(call: Call<List<History>>, t: Throwable) {
+                                progressBar.visibility = View.GONE
+                                creditList.clear()
 
 
                             }
 
                             override fun onResponse(call: Call<List<History>>, response: Response<List<History>>) {
+                                progressBar.visibility = View.GONE
 
                                 if (response.isSuccessful) {
 
@@ -235,12 +250,13 @@ class CreditFormActivity : AppCompatActivity() {
 
 
                                     } else {
-
+                                        rvCreditList.adapter = CreditListAdapter(ArrayList())
+                                        creditList.clear()
                                     }
 
 
                                 } else {
-
+                                    creditList.clear()
 
                                 }
 
@@ -249,14 +265,18 @@ class CreditFormActivity : AppCompatActivity() {
 
 
                         })
+                        progressBar.visibility = View.VISIBLE
+
 
                         creditHistory.getDebittHistory(selectedUser!!.id).enqueue(object : Callback<List<History>> {
                             override fun onFailure(call: Call<List<History>>, t: Throwable) {
-
+                                progressBar.visibility = View.GONE
+                                debitList.clear()
 
                             }
 
                             override fun onResponse(call: Call<List<History>>, response: Response<List<History>>) {
+                                progressBar.visibility = View.GONE
 
                                 if (response.isSuccessful) {
 
@@ -266,12 +286,13 @@ class CreditFormActivity : AppCompatActivity() {
 
 
                                     } else {
-
+                                        rvDebitList.adapter = DebitListAdapter(ArrayList())
+                                        debitList.clear()
                                     }
 
 
                                 } else {
-
+                                    debitList.clear()
 
                                 }
 
