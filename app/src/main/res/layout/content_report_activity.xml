@@ -3,21 +3,18 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:showIn="@layout/activity_credit_form"
-            tools:context=".view.CreditFormActivity"
+            tools:context=".view.ReportActivity"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
 
         <ProgressBar android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:id="@+id/progressBar"
+                     android:id="@+id/report_progressBar"
                      app:layout_constraintEnd_toEndOf="parent"
                      android:layout_marginEnd="8dp"
                      app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +29,7 @@
                 android:background="@android:color/black"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:id="@+id/tvSepereator"
+                android:id="@+id/report_tvSepereator"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +43,7 @@
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintTop_toBottomOf="@id/autoCustomerName"
                 app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/txtInAdress"
+                android:id="@+id/report_txtInAdress"
                 app:layout_constraintEnd_toStartOf="@+id/txtInCity"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="10dp">
@@ -59,7 +56,7 @@
                     android:scrollbars="vertical"
                     android:layout_height="wrap_content"
                     android:hint="@string/address"
-                    android:id="@+id/edtAdress"
+                    android:id="@+id/report_edtAdress"
                     android:textSize="14sp"/>
 
         </android.support.design.widget.TextInputLayout>
@@ -72,7 +69,7 @@
                 android:hint="@string/customer_mobile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/autoCustomerMobile"
+                android:id="@+id/report_autoCustomerMobile"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="2dp"
                 app:layout_constraintStart_toEndOf="@+id/autoCustomerName"
@@ -87,7 +84,7 @@
                 android:hint="@string/customer_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/autoCustomerName"
+                android:id="@+id/report_autoCustomerName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/autoCustomerMobile"
                 android:layout_marginStart="8dp"
@@ -102,7 +99,7 @@
                 app:layout_constraintHorizontal_weight="1"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/txtInCity"
+                android:id="@+id/report_txtInCity"
                 app:layout_constraintStart_toEndOf="@+id/txtInAdress"
                 app:layout_constraintBottom_toBottomOf="@+id/txtInAdress">
 
@@ -110,7 +107,8 @@
                     android:layout_width="match_parent"
                     android:inputType="text"
                     android:layout_height="wrap_content"
-                    android:hint="@string/city" android:id="@+id/edtCity"
+                    android:hint="@string/city"
+                    android:id="@+id/report_edtCity"
                     android:textSize="14sp"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -119,7 +117,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSepereator"
-                android:id="@+id/llCrDrHistoryLables"
+                android:id="@+id/report_llCrDrHistoryLables"
                 android:weightSum="2"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -161,7 +159,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/llCrDrHistoryLables"
-                android:id="@+id/llCrDrHistory"
+                android:id="@+id/report_llCrDrHistory"
                 android:weightSum="2"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -177,13 +175,13 @@
                          android:layout_height="wrap_content"/>
 
                 <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
-                                                        android:id="@+id/rvCreditList"
+                                                        android:id="@+id/report_rvCreditList"
                                                         android:nestedScrollingEnabled="true"
                                                         android:layout_height="250dp"/>
 
                 <TextView android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:id="@+id/tvTotalCredit"
+                          android:id="@+id/report_tvTotalCredit"
                           android:padding="2dp"
                           android:layout_marginTop="10dp"
                           android:gravity="center"
@@ -208,14 +206,14 @@
                          android:layout_height="wrap_content"/>
 
                 <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
-                                                        android:id="@+id/rvDebitList"
+                                                        android:id="@+id/report_rvDebitList"
                                                         android:nestedScrollingEnabled="true"
                                                         android:layout_height="250dp"/>
 
 
                 <TextView android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:id="@+id/tvTotalDebit"
+                          android:id="@+id/report_tvTotalDebit"
                           android:padding="2dp"
                           android:gravity="center"
                           android:layout_marginTop="10dp"
@@ -231,7 +229,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvTotalAmountCredit"
+                android:id="@+id/report_tvTotalAmountCredit"
                 tools:text="Remaining Amount:- 400"
                 android:layout_marginStart="8dp"
                 android:textSize="18sp"

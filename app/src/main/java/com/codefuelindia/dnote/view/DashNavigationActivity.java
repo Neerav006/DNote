@@ -51,7 +51,6 @@ public class DashNavigationActivity extends AppCompatActivity
         ft.commit();
         navigationView.getMenu().getItem(0).setChecked(true);
 
-
     }
 
     @Override
@@ -63,13 +62,6 @@ public class DashNavigationActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.dash_navigation, menu);
-        return true;
-    }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -100,6 +92,8 @@ public class DashNavigationActivity extends AppCompatActivity
             navigationView.getMenu().getItem(0).setChecked(true);
 
         }
+
+        navigationView.getMenu().getItem(0).setChecked(true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

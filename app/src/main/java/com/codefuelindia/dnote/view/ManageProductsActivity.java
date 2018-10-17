@@ -25,7 +25,7 @@ public class ManageProductsActivity extends AppCompatActivity {
 
     private static final String BASE_URL = "http://code-fuel.in/dnote/api/";
     ProductListAPI productListAPI;
-    
+
     RecyclerView recyclerView_productList;
     TextView textView_noproducts;
     ProgressBar progressBar;
@@ -44,9 +44,6 @@ public class ManageProductsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.manageProducts_toolbar);
         setSupportActionBar(toolbar);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
         recyclerView_productList = findViewById(R.id.manageProducts_recView);
         textView_noproducts = findViewById(R.id.manageProducts_tv_noProducts);
         progressBar = findViewById(R.id.manageProducts_progressBar);
@@ -55,13 +52,6 @@ public class ManageProductsActivity extends AppCompatActivity {
         getAllCustomers();
 
 
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_action_product_list, menu);
-        return true;
     }
 
 
@@ -109,13 +99,19 @@ public class ManageProductsActivity extends AppCompatActivity {
 
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_action_product_list, menu);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
 
             case R.id.action_addProduct:
                 goToAddProduct();
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -124,6 +120,7 @@ public class ManageProductsActivity extends AppCompatActivity {
     private void goToAddProduct() {
         startActivity(new Intent(ManageProductsActivity.this, AddProductActivity.class));
     }
+
 
 //---------------------------------------- APIs -----------------------------------------------------//
 
