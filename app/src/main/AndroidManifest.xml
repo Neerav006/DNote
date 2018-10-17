@@ -43,7 +43,7 @@
                 android:name=".view.ManageProductsActivity"
                 android:label="Products"
                 android:screenOrientation="portrait"
-                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".view.AddProductActivity"
@@ -55,11 +55,17 @@
                 android:label="Customers"
                 android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.ChangePwdActivity">
+        <activity android:name=".view.ChangePwdActivity"
+                  android:label="Change Password"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.ReportActivity">
+        <activity android:name=".view.ReportActivity"
+                  android:label="Report"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.AboutUsActivity">
+        <activity android:name=".view.AboutUsActivity"
+                  android:label="About Developers"
+                  android:screenOrientation="portrait">
         </activity>
     </application>
 

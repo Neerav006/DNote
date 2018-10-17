@@ -8,10 +8,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -35,7 +32,6 @@ public class ManageProductsActivity extends AppCompatActivity {
     RecyclerView recyclerView_productList;
     TextView textView_noproducts;
     ProgressBar progressBar;
-    ImageView imageView_add;
 
     RecAdapter recAdapter;
     private ArrayList<Product> resProductArrayList;
@@ -48,28 +44,26 @@ public class ManageProductsActivity extends AppCompatActivity {
 
         productListAPI = getCustomerListAPIService(BASE_URL);
 
-        Toolbar topToolBar = (Toolbar) findViewById(R.id.manageProducts_toolbar);
-        setSupportActionBar(topToolBar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
 
         recyclerView_productList = findViewById(R.id.manageProducts_recView);
         textView_noproducts = findViewById(R.id.manageProducts_tv_noProducts);
         progressBar = findViewById(R.id.manageProducts_progressBar);
-        imageView_add = findViewById(R.id.manageProducts_btn_addProduct);
 
 
         getAllCustomers();
 
-        imageView_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ManageProductsActivity.this, AddProductActivity.class));
-            }
-        });
 
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_action_product_list, menu);
+        return true;
+    }
+
 
     private void getAllCustomers() {
         progressBar.setVisibility(View.VISIBLE);
@@ -119,8 +113,16 @@ public class ManageProductsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+
+            case R.id.action_addProduct:
+                goToAddProduct();
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void goToAddProduct() {
+        startActivity(new Intent(ManageProductsActivity.this, AddProductActivity.class));
     }
 
 //---------------------------------------- APIs -----------------------------------------------------//
