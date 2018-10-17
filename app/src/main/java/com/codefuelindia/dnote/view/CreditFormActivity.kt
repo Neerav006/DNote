@@ -1,5 +1,6 @@
 package com.codefuelindia.dnote.view
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AlertDialog
@@ -15,11 +16,9 @@ import kotlinx.android.synthetic.main.content_credit_form.*
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.TextView
-import com.codefuelindia.dnote.Common.AutoCompleteAdapter
-import com.codefuelindia.dnote.Common.CreditHistory
-import com.codefuelindia.dnote.Common.RetrofitClient
-import com.codefuelindia.dnote.Common.UserListFetch
+import com.codefuelindia.dnote.Common.*
 import com.codefuelindia.dnote.Model.History
+import com.codefuelindia.dnote.Model.ResCommon
 import com.codefuelindia.dnote.Model.User
 import com.codefuelindia.dnote.constants.MyConstants
 import retrofit2.Call
@@ -34,12 +33,19 @@ class CreditFormActivity : AppCompatActivity() {
     private lateinit var creditHistory: CreditHistory
     private var creditList: ArrayList<History> = ArrayList()
     private var debitList: ArrayList<History> = ArrayList()
+    private lateinit var progressDialog: ProgressDialog
+    private lateinit var credit: AddCredit
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_credit_form)
         setSupportActionBar(toolbar)
+
+        credit = RetrofitClient.getClient(MyConstants.BASE_URL).create(AddCredit::class.java)
+
+        progressDialog = ProgressDialog(this@CreditFormActivity)
+        progressDialog.setCancelable(false)
 
         creditHistory = RetrofitClient.getClient(MyConstants.BASE_URL).create(CreditHistory::class.java)
 
@@ -495,6 +501,57 @@ class CreditFormActivity : AppCompatActivity() {
 
         btnPay.setOnClickListener {
 
+            if (edtAmount.text.toString().isNotEmpty() && edtAmount.text.toString().toDouble() > 0.0) {
+
+                mAlertDialog.dismiss()
+                progressDialog.show()
+
+
+                credit.addCreditData(selectedUser!!.id, edtAmount.text.toString().trim())
+                    .enqueue(object : Callback<ResCommon> {
+                        override fun onFailure(call: Call<ResCommon>, t: Throwable) {
+                            if (progressDialog.isShowing) {
+                                progressDialog.dismiss()
+                            }
+                            MyConstants.showToast(this@CreditFormActivity, "Internal server error")
+
+                        }
+
+                        override fun onResponse(call: Call<ResCommon>, response: Response<ResCommon>) {
+                            if (progressDialog.isShowing) {
+                                progressDialog.dismiss()
+                            }
+
+                            if (response.isSuccessful) {
+
+                                if (response.body()!!.msg.equals("true", true)) {
+                                    MyConstants.showToast(this@CreditFormActivity, "Successfully added")
+                                    finish()
+
+
+                                } else {
+
+                                    MyConstants.showToast(this@CreditFormActivity, "Try again error!")
+
+
+                                }
+
+
+                            } else {
+                                MyConstants.showToast(this@CreditFormActivity, "Internal server error")
+
+                            }
+
+
+                        }
+
+
+                    })
+
+
+            } else {
+                MyConstants.showToast(this@CreditFormActivity, "Enter Amount")
+            }
 
         }
 
