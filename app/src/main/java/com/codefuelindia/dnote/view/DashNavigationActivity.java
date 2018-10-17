@@ -1,24 +1,29 @@
 package com.codefuelindia.dnote.view;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+import com.codefuelindia.dnote.Common.SessionManager;
 import com.codefuelindia.dnote.Fragment.DashboardFragment;
 import com.codefuelindia.dnote.R;
 
 public class DashNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    SessionManager sessionManager;
+
+    private NavigationView navigationView;
 
     FragmentTransaction ft;
 
@@ -35,9 +40,10 @@ public class DashNavigationActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        sessionManager = new SessionManager(this);
 
         ft = getSupportFragmentManager().beginTransaction();
 
@@ -60,19 +66,14 @@ public class DashNavigationActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.dash_navigation, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -83,20 +84,26 @@ public class DashNavigationActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_dashboard) {
+            setTitle("Diet Manager");
+            navigationView.getMenu().getItem(0).setChecked(true);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_changePwd) {
+            Intent i = new Intent(DashNavigationActivity.this, ChangePwdActivity.class);
+            startActivity(i);
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_report) {
+            Intent i = new Intent(DashNavigationActivity.this, ReportActivity.class);
+            startActivity(i);
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_logout) {
+            showLogoutDialog();
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_aboutUs) {
+            Intent i = new Intent(DashNavigationActivity.this, AboutUsActivity.class);
+            startActivity(i);
 
         }
 
@@ -104,4 +111,37 @@ public class DashNavigationActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void showLogoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("Are you sure you want to logout?")
+                .setTitle("Confirm Logout");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                sessionManager.deleteSession();
+
+                finishAffinity();
+
+                Intent i = new Intent(DashNavigationActivity.this, LoginActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                Toast.makeText(DashNavigationActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
+
+                startActivity(i);
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                return;
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 }

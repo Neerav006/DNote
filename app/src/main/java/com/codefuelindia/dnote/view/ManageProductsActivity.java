@@ -1,17 +1,18 @@
 package com.codefuelindia.dnote.view;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.codefuelindia.dnote.Common.RetrofitClient;
@@ -34,7 +35,7 @@ public class ManageProductsActivity extends AppCompatActivity {
     RecyclerView recyclerView_productList;
     TextView textView_noproducts;
     ProgressBar progressBar;
-    FloatingActionButton fab_add;
+    ImageView imageView_add;
 
     RecAdapter recAdapter;
     private ArrayList<Product> resProductArrayList;
@@ -47,18 +48,21 @@ public class ManageProductsActivity extends AppCompatActivity {
 
         productListAPI = getCustomerListAPIService(BASE_URL);
 
+        Toolbar topToolBar = (Toolbar) findViewById(R.id.manageProducts_toolbar);
+        setSupportActionBar(topToolBar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         recyclerView_productList = findViewById(R.id.manageProducts_recView);
         textView_noproducts = findViewById(R.id.manageProducts_tv_noProducts);
         progressBar = findViewById(R.id.manageProducts_progressBar);
-        fab_add = findViewById(R.id.manageProducts_fab_addProduct);
+        imageView_add = findViewById(R.id.manageProducts_btn_addProduct);
 
 
         getAllCustomers();
 
-        fab_add.setOnClickListener(new View.OnClickListener() {
+        imageView_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ManageProductsActivity.this, AddProductActivity.class));
