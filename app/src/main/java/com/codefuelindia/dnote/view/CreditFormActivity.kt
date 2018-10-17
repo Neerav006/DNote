@@ -1,20 +1,19 @@
 package com.codefuelindia.dnote.view
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
+import android.support.design.widget.TextInputEditText
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
+import android.view.*
 import com.codefuelindia.dnote.R
 
 import kotlinx.android.synthetic.main.activity_credit_form.*
 import kotlinx.android.synthetic.main.content_credit_form.*
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Button
 import android.widget.TextView
 import com.codefuelindia.dnote.Common.AutoCompleteAdapter
 import com.codefuelindia.dnote.Common.CreditHistory
@@ -144,6 +143,7 @@ class CreditFormActivity : AppCompatActivity() {
                             override fun onFailure(call: Call<List<History>>, t: Throwable) {
                                 progressBar.visibility = View.GONE
                                 creditList.clear()
+                                showCreditDebitTotal()
 
                             }
 
@@ -156,16 +156,19 @@ class CreditFormActivity : AppCompatActivity() {
                                     if (creditList.size > 0) {
 
                                         rvCreditList.adapter = CreditListAdapter(creditList)
+                                        showCreditDebitTotal()
 
 
                                     } else {
                                         creditList.clear()
                                         rvCreditList.adapter = CreditListAdapter(ArrayList())
+                                        showCreditDebitTotal()
                                     }
 
 
                                 } else {
                                     creditList.clear()
+                                    showCreditDebitTotal()
 
                                 }
 
@@ -180,6 +183,7 @@ class CreditFormActivity : AppCompatActivity() {
                             override fun onFailure(call: Call<List<History>>, t: Throwable) {
                                 progressBar.visibility = View.GONE
                                 debitList.clear()
+                                showCreditDebitTotal()
 
 
                             }
@@ -192,11 +196,14 @@ class CreditFormActivity : AppCompatActivity() {
                                     debitList = response.body() as ArrayList<History>
                                     if (debitList.size > 0) {
                                         rvDebitList.adapter = DebitListAdapter(debitList)
+                                        showCreditDebitTotal()
 
 
                                     } else {
                                         rvDebitList.adapter = CreditListAdapter(ArrayList())
                                         debitList.clear()
+                                        showCreditDebitTotal()
+
                                     }
 
 
@@ -235,6 +242,7 @@ class CreditFormActivity : AppCompatActivity() {
                                 progressBar.visibility = View.GONE
                                 creditList.clear()
 
+                                showCreditDebitTotal()
 
                             }
 
@@ -247,16 +255,21 @@ class CreditFormActivity : AppCompatActivity() {
                                     if (creditList.size > 0) {
 
                                         rvCreditList.adapter = CreditListAdapter(creditList)
+                                        showCreditDebitTotal()
 
 
                                     } else {
                                         rvCreditList.adapter = CreditListAdapter(ArrayList())
                                         creditList.clear()
+                                        showCreditDebitTotal()
+
                                     }
 
 
                                 } else {
                                     creditList.clear()
+                                    showCreditDebitTotal()
+
 
                                 }
 
@@ -283,16 +296,21 @@ class CreditFormActivity : AppCompatActivity() {
                                     debitList = response.body() as ArrayList<History>
                                     if (debitList.size > 0) {
                                         rvDebitList.adapter = DebitListAdapter(debitList)
+                                        showCreditDebitTotal()
 
 
                                     } else {
                                         rvDebitList.adapter = DebitListAdapter(ArrayList())
                                         debitList.clear()
+                                        showCreditDebitTotal()
+
                                     }
 
 
                                 } else {
                                     debitList.clear()
+                                    showCreditDebitTotal()
+
 
                                 }
 
@@ -306,6 +324,34 @@ class CreditFormActivity : AppCompatActivity() {
 
 
                 }
+
+    }
+
+
+    fun showCreditDebitTotal() {
+
+        var sumDebit = 0.0
+
+        var sumCredit = 0.0
+
+        for (item in debitList) {
+
+            sumDebit += item.rs.toDouble()
+
+
+        }
+
+
+        for (item in creditList) {
+
+            sumCredit += item.rs.toDouble()
+
+        }
+
+        tvTotalDebit.text = "Total: ".plus(sumDebit.toString())
+        tvTotalCredit.text = "Total: ".plus(sumCredit.toString())
+        tvTotalAmountCredit.text = "Remaining Amount: ".plus(selectedUser?.remainingPayment)
+
 
     }
 
@@ -404,6 +450,55 @@ class CreditFormActivity : AppCompatActivity() {
         companion object {
             private val TAG = "CustomAdapter"
         }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.menu_pay, menu)
+
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        if (item!!.itemId == R.id.action_menu_pay) {
+
+            if (selectedUser != null) {
+
+                showPayDialog()
+
+
+            }
+
+
+            return true
+        }
+
+
+        return false
+    }
+
+    fun showPayDialog() {
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.row_custom_pay_dialog, null)
+
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("Pay Amount")
+        val mAlertDialog = mBuilder.show()
+
+        val edtAmount = mDialogView.findViewById<TextInputEditText>(R.id.edtPay)
+        val tvRemaining = mDialogView.findViewById<TextView>(R.id.tvTotalAmountCredit)
+        val btnPay = mDialogView.findViewById<Button>(R.id.btnPayCredit)
+
+        btnPay.setOnClickListener {
+
+
+        }
+
+
     }
 
 

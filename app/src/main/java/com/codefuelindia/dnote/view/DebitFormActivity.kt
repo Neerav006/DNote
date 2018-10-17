@@ -170,6 +170,9 @@ class DebitFormActivity : AppCompatActivity() {
                         edtAdress.setText(selectedUser?.address)
                         edtCity.setText(selectedUser?.city)
 
+                        tvUserPurchaseAmount.text = "Remaining: ".plus(selectedUser?.remainingPayment)
+
+
                     }
 
 
@@ -185,6 +188,9 @@ class DebitFormActivity : AppCompatActivity() {
                         autoCustomerMobile.setText(selectedUser?.mobile)
                         edtAdress.setText(selectedUser?.address)
                         edtCity.setText(selectedUser?.city)
+
+                        tvUserPurchaseAmount.text = "Remaining: ".plus(selectedUser?.remainingPayment)
+
 
                     }
 
@@ -277,9 +283,7 @@ class DebitFormActivity : AppCompatActivity() {
 
             return true
 
-        }
-        else if (item!!.itemId == R.id.action_menu_save){
-
+        } else if (item!!.itemId == R.id.action_menu_save) {
 
 
         }

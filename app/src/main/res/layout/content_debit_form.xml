@@ -237,6 +237,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvUserPurchaseAmount"
+                android:textColor="@android:color/holo_red_dark"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp" tools:text="Total: - " android:textSize="18sp" android:textStyle="bold"/>
