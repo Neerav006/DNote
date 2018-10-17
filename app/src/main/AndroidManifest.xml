@@ -11,8 +11,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".view.LoginActivity"
-                  android:screenOrientation="portrait">
+        <activity
+                android:name=".view.LoginActivity"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
@@ -27,9 +28,9 @@
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-                android:screenOrientation="portrait"
                 android:name=".view.CreditFormActivity"
                 android:label="@string/title_activity_credit_form"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
@@ -38,17 +39,27 @@
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".view.ManageProductsActivity"
-                  android:label="Products"
-                  android:screenOrientation="portrait">
+        <activity
+                android:name=".view.ManageProductsActivity"
+                android:label="Products"
+                android:screenOrientation="portrait"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
-        <activity android:name=".view.AddProductActivity"
-                  android:label="Add Product"
-                  android:screenOrientation="portrait">
+        <activity
+                android:name=".view.AddProductActivity"
+                android:label="Add Product"
+                android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.ManageCustomersActivity"
-                  android:label="Customers"
-                  android:screenOrientation="portrait">
+        <activity
+                android:name=".view.ManageCustomersActivity"
+                android:label="Customers"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".view.ChangePwdActivity">
+        </activity>
+        <activity android:name=".view.ReportActivity">
+        </activity>
+        <activity android:name=".view.AboutUsActivity">
         </activity>
     </application>
 
