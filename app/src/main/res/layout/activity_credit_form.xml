@@ -24,5 +24,4 @@
     <include layout="@layout/content_credit_form"/>
 
 
-
 </android.support.design.widget.CoordinatorLayout>
