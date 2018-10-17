@@ -14,6 +14,8 @@ class MyConstants {
     companion object {
 
         val BASE_URL = "http://code-fuel.in/dnote/"
+            const val WRITE_EXTERNAL_STORAGE:Int = 100
+
 
 
         fun showToast(contex: Context, msg: String) {

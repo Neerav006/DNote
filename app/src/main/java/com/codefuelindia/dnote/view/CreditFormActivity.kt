@@ -1,8 +1,14 @@
 package com.codefuelindia.dnote.view
 
+import android.Manifest
 import android.app.ProgressDialog
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.support.design.widget.TextInputEditText
+import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
@@ -21,12 +27,58 @@ import com.codefuelindia.dnote.Model.History
 import com.codefuelindia.dnote.Model.ResCommon
 import com.codefuelindia.dnote.Model.User
 import com.codefuelindia.dnote.constants.MyConstants
+import com.codefuelindia.dnote.constants.MyConstants.Companion.WRITE_EXTERNAL_STORAGE
+import com.itextpdf.text.*
+import com.itextpdf.text.pdf.PdfPCell
+import com.itextpdf.text.pdf.PdfPTable
+import com.itextpdf.text.pdf.PdfWriter
+import org.intellij.lang.annotations.JdkConstants
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.EasyPermissions
+import pub.devrel.easypermissions.PermissionRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 
-class CreditFormActivity : AppCompatActivity() {
+class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
+
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+
+
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+
+
+    }
+
+    @AfterPermissionGranted(WRITE_EXTERNAL_STORAGE)
+    fun requestWriteExternalPermission() {
+
+        val perms = arrayOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if (EasyPermissions.hasPermissions(this, *perms)) {
+
+            generateReportPdf("TCS", "9558521007", "Gandhinagar")
+
+        } else {
+            EasyPermissions.requestPermissions(
+                PermissionRequest.Builder(this@CreditFormActivity, WRITE_EXTERNAL_STORAGE, *perms)
+                    .setPositiveButtonText("Ok")
+                    .setNegativeButtonText("cancel")
+                    .setRationale("Storage permission required..")
+                    .setTheme(R.style.AppTheme)
+                    .build()
+            )
+        }
+
+    }
+
     private lateinit var getUserList: UserListFetch
     private var userList: ArrayList<User> = ArrayList()
     private var selectedUser: User? = null
@@ -35,6 +87,8 @@ class CreditFormActivity : AppCompatActivity() {
     private var debitList: ArrayList<History> = ArrayList()
     private lateinit var progressDialog: ProgressDialog
     private lateinit var credit: AddCredit
+    private val PDF_DIRECTORY = "/Dnote"
+    private val FILE_NAME = "report"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -480,6 +534,16 @@ class CreditFormActivity : AppCompatActivity() {
 
 
             return true
+        } else if (item.itemId == R.id.action_menu_share) {
+
+            if (selectedUser != null) {
+
+                requestWriteExternalPermission()
+
+
+            }
+
+
         }
 
 
@@ -558,5 +622,219 @@ class CreditFormActivity : AppCompatActivity() {
 
     }
 
+
+    fun deleteDir(dir: File): Boolean {
+        if (dir.isDirectory) {
+            val children = dir.list()
+            for (i in children!!.indices) {
+                val success = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+        }
+
+        // The directory is now empty so delete it
+        return dir.delete()
+    }
+
+
+    private fun getOutputMediaFile(): File? {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        //        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+        //                Environment.DIRECTORY_PICTURES), PDF_DIRECTORY);
+
+        deleteDir(File(Environment.getExternalStorageDirectory(), PDF_DIRECTORY))
+
+        val mediaStorageDir = File(
+            Environment.getExternalStorageDirectory(), PDF_DIRECTORY
+        )
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d(PDF_DIRECTORY, "failed to create directory")
+                return null
+            }
+        }
+
+        // Create a media file name
+
+        var mediaFile: File? = null
+
+
+        try {
+            mediaFile = File.createTempFile(FILE_NAME, ".pdf", mediaStorageDir)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return mediaFile
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+
+    fun generateReportPdf(companyName: String, contactNo: String, addr: String) {
+
+
+        val file = getOutputMediaFile()
+
+        if (file != null) {
+
+            val document = Document(PageSize.A4)
+
+            try {
+                PdfWriter.getInstance(document, FileOutputStream(file.absolutePath))
+
+                document.open()
+
+                val paragraph = Paragraph()
+                val fntSize: Float
+                val lineSpacing: Float
+                fntSize = 10f
+                lineSpacing = 30f
+
+                val tableCompanyHeader = PdfPTable(3)
+                tableCompanyHeader.setWidths(intArrayOf(2, 1, 2))
+                tableCompanyHeader.horizontalAlignment = Element.ALIGN_CENTER
+
+                val tableCompanyHeaderCell1 = PdfPCell()
+                tableCompanyHeaderCell1.horizontalAlignment = PdfPTable.ALIGN_MIDDLE
+                tableCompanyHeaderCell1.verticalAlignment = PdfPTable.ALIGN_MIDDLE
+
+                tableCompanyHeaderCell1.addElement(Phrase(
+                    lineSpacing, companyName,
+                    FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                ))
+
+
+                tableCompanyHeader.addCell(
+                    tableCompanyHeaderCell1
+                )
+
+                tableCompanyHeader.addCell(
+                    Phrase(
+                        lineSpacing, contactNo,
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                tableCompanyHeader.addCell(
+                    Phrase(
+                        lineSpacing, addr,
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                val reportHeader = PdfPTable(1)
+                reportHeader.addCell(
+                    Phrase(
+                        lineSpacing, "Credit Debit Report",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                val customerDetail = PdfPTable(4)
+                customerDetail.setWidths(intArrayOf(1, 1, 1, 1))
+                customerDetail.horizontalAlignment = Element.ALIGN_CENTER
+
+
+                customerDetail.addCell(
+                    Phrase(
+                        lineSpacing, selectedUser?.name,
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                customerDetail.addCell(
+                    Phrase(
+                        lineSpacing, selectedUser?.mobile,
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                customerDetail.addCell(
+                    Phrase(
+                        lineSpacing, selectedUser?.address,
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+                customerDetail.addCell(
+                    Phrase(
+                        lineSpacing, selectedUser?.city,
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                val debitHeader = PdfPTable(2)
+                debitHeader.setWidths(intArrayOf(1, 1))
+                debitHeader.horizontalAlignment = Element.ALIGN_CENTER
+
+
+                debitHeader.addCell(
+                    Phrase(
+                        lineSpacing, "Credit",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                debitHeader.addCell(
+                    Phrase(
+                        lineSpacing, "Debit",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+
+                document.add(tableCompanyHeader)
+                document.add(reportHeader)
+                document.add(customerDetail)
+                document.add(debitHeader)
+                document.close()
+
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+                    var uri: Uri? = null
+                    // So you have to use Provider
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        uri = FileProvider.getUriForFile(this, applicationContext.packageName + ".fileprovider", file)
+
+                        // Add in case of if We get Uri from fileProvider.
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    } else {
+                        uri = Uri.fromFile(file)
+                    }
+
+                    intent.setDataAndType(uri, "application/pdf")
+                    startActivity(intent)
+                } catch (e: RuntimeException) {
+
+                }
+
+
+            } catch (e: DocumentException) {
+
+                Log.e("exception", e.message)
+
+            }
+
+
+        }
+
+
+    }
 
 }
