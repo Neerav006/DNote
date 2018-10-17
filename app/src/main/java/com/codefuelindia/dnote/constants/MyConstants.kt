@@ -3,8 +3,10 @@ package com.codefuelindia.dnote.constants
 import android.content.Context
 import android.view.View
 import android.widget.Toast
-import android.support.v4.content.ContextCompat.getSystemService
 import android.view.inputmethod.InputMethodManager
+import android.net.ConnectivityManager
+
+
 
 
 class MyConstants {
@@ -25,6 +27,15 @@ class MyConstants {
                 val imm = contex.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
                 imm!!.hideSoftInputFromWindow(view.windowToken, 0)
             }
+        }
+
+
+        fun checkInternetConnection(context: Context): Boolean {
+
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+            val activeNetwork = cm.activeNetworkInfo
+            return activeNetwork != null && activeNetwork.isConnectedOrConnecting
         }
 
     }

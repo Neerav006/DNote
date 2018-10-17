@@ -39,6 +39,7 @@ class DebitFormActivity : AppCompatActivity() {
     private lateinit var customAdapter: CustomAdapter
     private lateinit var progressDialog: ProgressDialog
     private lateinit var addDebit: AddDebit
+    private var isResponceOk = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,6 +103,9 @@ class DebitFormActivity : AppCompatActivity() {
         getUserList.getUserList().enqueue(object : Callback<List<User>> {
             override fun onFailure(call: Call<List<User>>, t: Throwable) {
 
+                isResponceOk =false
+                MyConstants.showToast(this@DebitFormActivity,"Server error!Try again")
+                finish()
 
             }
 
@@ -110,6 +114,7 @@ class DebitFormActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
 
                     userList = response.body() as ArrayList<User>
+                    isResponceOk = true
                     if (userList.size > 0) {
 
                         autoCustomerName.setAdapter(
@@ -131,6 +136,9 @@ class DebitFormActivity : AppCompatActivity() {
 
                 } else {
 
+                    isResponceOk = false
+                    MyConstants.showToast(this@DebitFormActivity,"Server error!Try again")
+                    finish()
 
                 }
 
@@ -282,7 +290,7 @@ class DebitFormActivity : AppCompatActivity() {
     private fun saveDebitData() {
 
 
-        if (debitList.isNotEmpty() && userList.isNotEmpty()) {
+        if (debitList.isNotEmpty() && isResponceOk) {
 
             val insertDebit = InserDebitData()
 

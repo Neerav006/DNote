@@ -142,8 +142,8 @@
 
                 <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
                                                         android:id="@+id/rvCreditList"
-                                                        android:nestedScrollingEnabled="false"
-                                                        android:layout_height="wrap_content"/>
+                                                        android:nestedScrollingEnabled="true"
+                                                        android:layout_height="250dp"/>
 
 
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -170,8 +170,8 @@
 
                 <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
                                                         android:id="@+id/rvDebitList"
-                                                        android:nestedScrollingEnabled="false"
-                                                        android:layout_height="wrap_content"/>
+                                                        android:nestedScrollingEnabled="true"
+                                                        android:layout_height="250dp"/>
 
 
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
