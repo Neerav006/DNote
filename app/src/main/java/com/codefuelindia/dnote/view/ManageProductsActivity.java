@@ -9,9 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 import com.codefuelindia.dnote.Common.RetrofitClient;
 import com.codefuelindia.dnote.Model.Product;
 import com.codefuelindia.dnote.R;
@@ -161,6 +159,19 @@ public class ManageProductsActivity extends AppCompatActivity {
             viewHolder.getTextView_name().setText(mDataSet.get(position).getName());
             viewHolder.getTextView_rate().setText(mDataSet.get(position).getRate() + "/-");
 
+            viewHolder.getLinearLayout_row().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getApplicationContext(), "position: " + position, Toast.LENGTH_SHORT).show();
+
+                    Intent i = new Intent(ManageProductsActivity.this, ProductItemDetailsActivity.class);
+                    i.putExtra("name", mDataSet.get(position).getName());
+
+                    startActivity(i);
+
+                }
+            });
+
         }
 
         @Override
@@ -170,15 +181,21 @@ public class ManageProductsActivity extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
+            private final LinearLayout linearLayout_row;
             private final TextView textView_index, textView_name, textView_rate;
 
             ViewHolder(View v) {
                 super(v);
 
+                linearLayout_row = v.findViewById(R.id.row_list_products);
                 textView_index = (TextView) v.findViewById(R.id.row_productList_tv_index);
                 textView_name = (TextView) v.findViewById(R.id.row_productList_tv_name);
                 textView_rate = (TextView) v.findViewById(R.id.row_productList_tv_rate);
 
+            }
+
+            public LinearLayout getLinearLayout_row() {
+                return linearLayout_row;
             }
 
             TextView getTextView_name() {

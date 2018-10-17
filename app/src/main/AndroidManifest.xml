@@ -55,16 +55,27 @@
                 android:label="Customers"
                 android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.ChangePwdActivity"
-                  android:label="Change Password"
+        <activity
+                android:name=".view.ChangePwdActivity"
+                android:label="Change Password"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity
+                android:name=".view.ReportActivity"
+                android:label="Report"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity
+                android:name=".view.AboutUsActivity"
+                android:label="About Developers"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".view.ProductItemDetailsActivity"
+                  android:label="Product Details"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.ReportActivity"
-                  android:label="Report"
-                  android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".view.AboutUsActivity"
-                  android:label="About Developers"
+        <activity android:name=".view.CustomerDetailsActivity"
+                  android:label="Customer Details"
                   android:screenOrientation="portrait">
         </activity>
     </application>

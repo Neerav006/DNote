@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".view.CustomerDetailsActivity">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:layout_marginTop="12dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginEnd="10dp">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Name: "
+                  android:textColor="@color/raisinBlack"
+                  android:textSize="15sp"/>
+
+        <TextView android:id="@+id/customerDetails_tv_name"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:layout_marginTop="12dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginEnd="10dp">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Number: "
+                  android:textColor="@color/raisinBlack"
+                  android:textSize="15sp"/>
+
+        <TextView android:id="@+id/customerDetails_tv_number"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:layout_marginTop="12dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginEnd="10dp">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="City: "
+                  android:textColor="@color/raisinBlack"
+                  android:textSize="15sp"/>
+
+        <TextView android:id="@+id/customerDetails_tv_city"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:layout_marginTop="12dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginEnd="10dp">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Address: "
+                  android:textColor="@color/raisinBlack"
+                  android:textSize="15sp"/>
+
+        <TextView android:id="@+id/customerDetails_tv_address"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:layout_marginTop="12dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginEnd="10dp">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Total Payment: "
+                  android:textColor="@color/raisinBlack"
+                  android:textSize="15sp"/>
+
+        <TextView android:id="@+id/customerDetails_tv_totalPayment"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:layout_marginTop="12dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginEnd="10dp">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Collected Payment: "
+                  android:textColor="@color/raisinBlack"
+                  android:textSize="15sp"/>
+
+        <TextView android:id="@+id/customerDetails_tv_collectedPayment"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:layout_marginTop="12dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginEnd="10dp">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Remaining Payment: "
+                  android:textColor="@color/raisinBlack"
+                  android:textSize="15sp"/>
+
+        <TextView android:id="@+id/customerDetails_tv_remainingPayment"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="15sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

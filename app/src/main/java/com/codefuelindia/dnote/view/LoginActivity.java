@@ -25,8 +25,8 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    LoginAPI loginAPI;
     private static final String BASE_URL = "http://code-fuel.in/dnote/api/";
+    LoginAPI loginAPI;
 
     SessionManager sessionManager;
 

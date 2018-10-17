@@ -11,17 +11,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="40dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="8dp">
 
         <EditText
-                android:id="@+id/login_et_number"
+                android:id="@+id/changePwd_et_password1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Mobile Number"
-                android:inputType="number"
-                android:maxLength="10"
+                android:hint="Enter new password"
+                android:inputType="textPassword"
+                android:maxLength="32"
                 android:singleLine="true"/>
 
     </android.support.design.widget.TextInputLayout>
@@ -35,14 +35,25 @@
             android:layout_marginBottom="8dp">
 
         <EditText
-                android:id="@+id/login_et_password"
+                android:id="@+id/changePwd_et_password2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Password"
+                android:hint="Confirm new password"
                 android:inputType="textPassword"
                 android:maxLength="32"
                 android:singleLine="true"/>
 
     </android.support.design.widget.TextInputLayout>
+
+    <Button android:id="@+id/changePwd_btn_submit"
+            android:layout_width="match_parent"
+            android:text="Submit"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"/>
 
 </LinearLayout>

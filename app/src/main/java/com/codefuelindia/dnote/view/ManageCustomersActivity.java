@@ -1,5 +1,6 @@
 package com.codefuelindia.dnote.view;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.codefuelindia.dnote.Common.RetrofitClient;
@@ -143,6 +145,27 @@ public class ManageCustomersActivity extends AppCompatActivity {
             viewHolder.getTextView_index().setText(String.valueOf(position + 1));
             viewHolder.getTextView_name().setText(mDataSet.get(position).getName());
 
+            viewHolder.getLinearLayout_row().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent i = new Intent(ManageCustomersActivity.this, CustomerDetailsActivity.class);
+
+                    i.putExtra("name", mDataSet.get(position).getName());
+                    i.putExtra("number", mDataSet.get(position).getMobile());
+                    i.putExtra("city", mDataSet.get(position).getCity());
+                    i.putExtra("address", mDataSet.get(position).getAddress());
+
+                    i.putExtra("totalPayment", mDataSet.get(position).getTotalPayment());
+                    i.putExtra("collectedPayment", mDataSet.get(position).getCollectedPayment());
+                    i.putExtra("remainingPayment", mDataSet.get(position).getRemainingPayment());
+
+
+                    startActivity(i);
+
+                }
+            });
+
         }
 
         @Override
@@ -152,14 +175,20 @@ public class ManageCustomersActivity extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
+            private final LinearLayout linearLayout_row;
             private final TextView textView_index, textView_name;
 
             ViewHolder(View v) {
                 super(v);
 
+                linearLayout_row = (LinearLayout) v.findViewById(R.id.row_list_customers);
                 textView_index = (TextView) v.findViewById(R.id.row_customerList_tv_index);
                 textView_name = (TextView) v.findViewById(R.id.row_customerList_tv_name);
 
+            }
+
+            public LinearLayout getLinearLayout_row() {
+                return linearLayout_row;
             }
 
             TextView getTextView_name() {

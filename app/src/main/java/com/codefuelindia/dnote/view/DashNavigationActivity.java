@@ -83,17 +83,21 @@ public class DashNavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_changePwd) {
             Intent i = new Intent(DashNavigationActivity.this, ChangePwdActivity.class);
             startActivity(i);
+            navigationView.getMenu().getItem(0).setChecked(true);
 
         } else if (id == R.id.nav_report) {
             Intent i = new Intent(DashNavigationActivity.this, ReportActivity.class);
             startActivity(i);
+            navigationView.getMenu().getItem(0).setChecked(true);
 
         } else if (id == R.id.nav_logout) {
             showLogoutDialog();
+            navigationView.getMenu().getItem(0).setChecked(true);
 
         } else if (id == R.id.nav_aboutUs) {
             Intent i = new Intent(DashNavigationActivity.this, AboutUsActivity.class);
             startActivity(i);
+            navigationView.getMenu().getItem(0).setChecked(true);
 
         }
 
