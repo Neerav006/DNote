@@ -1,9 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.ChangePwdActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="8dp">
+
+        <EditText
+                android:id="@+id/login_et_number"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Mobile Number"
+                android:inputType="number"
+                android:maxLength="10"
+                android:singleLine="true"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="8dp">
+
+        <EditText
+                android:id="@+id/login_et_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:maxLength="32"
+                android:singleLine="true"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>
