@@ -1,20 +1,16 @@
 package com.codefuelindia.dnote.view
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
-import com.codefuelindia.dnote.Common.AutoCompleteAdapter
-import com.codefuelindia.dnote.Common.ProductListFetch
-import com.codefuelindia.dnote.Common.RetrofitClient
-import com.codefuelindia.dnote.Common.UserListFetch
-import com.codefuelindia.dnote.Model.Product
-import com.codefuelindia.dnote.Model.User
 import com.codefuelindia.dnote.R
 import com.codefuelindia.dnote.constants.MyConstants
 
@@ -26,7 +22,9 @@ import retrofit2.Response
 import android.widget.TextView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
-import com.codefuelindia.dnote.Model.DebitModel
+import com.codefuelindia.dnote.Common.*
+import com.codefuelindia.dnote.Model.*
+import com.google.gson.Gson
 
 
 class DebitFormActivity : AppCompatActivity() {
@@ -39,11 +37,21 @@ class DebitFormActivity : AppCompatActivity() {
     private var selectedProduct: Product? = null
     private var debitList: ArrayList<DebitModel> = ArrayList()
     private lateinit var customAdapter: CustomAdapter
+    private lateinit var progressDialog: ProgressDialog
+    private lateinit var addDebit: AddDebit
+    private var isResponceOk = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debit_form)
         setSupportActionBar(toolbar)
+
+        addDebit = RetrofitClient.getClient(MyConstants.BASE_URL).create(AddDebit::class.java)
+
+
+        progressDialog = ProgressDialog(this@DebitFormActivity)
+        progressDialog.setCancelable(false)
+
 
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -81,11 +89,23 @@ class DebitFormActivity : AppCompatActivity() {
             return@setOnTouchListener false
         }
 
+
+        btnSaveDebitData?.setOnClickListener {
+
+            saveDebitData()
+
+
+        }
+
+
         // -------------------------- API CALL -----------------------------------//
 
         getUserList.getUserList().enqueue(object : Callback<List<User>> {
             override fun onFailure(call: Call<List<User>>, t: Throwable) {
 
+                isResponceOk =false
+                MyConstants.showToast(this@DebitFormActivity,"Server error!Try again")
+                finish()
 
             }
 
@@ -94,6 +114,7 @@ class DebitFormActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
 
                     userList = response.body() as ArrayList<User>
+                    isResponceOk = true
                     if (userList.size > 0) {
 
                         autoCustomerName.setAdapter(
@@ -115,6 +136,9 @@ class DebitFormActivity : AppCompatActivity() {
 
                 } else {
 
+                    isResponceOk = false
+                    MyConstants.showToast(this@DebitFormActivity,"Server error!Try again")
+                    finish()
 
                 }
 
@@ -263,6 +287,91 @@ class DebitFormActivity : AppCompatActivity() {
 
     }
 
+    private fun saveDebitData() {
+
+
+        if (debitList.isNotEmpty() && isResponceOk) {
+
+            val insertDebit = InserDebitData()
+
+            if (selectedUser == null || selectedUser!!.id == null) {
+                insertDebit.id = ""
+            } else {
+                insertDebit.id = selectedUser?.id
+            }
+
+
+            insertDebit.mobile = autoCustomerMobile.text.toString().trim()
+            insertDebit.addr = edtAdress.text.toString().trim()
+            insertDebit.city = edtCity.text.toString().trim()
+            insertDebit.name = autoCustomerName.text.toString().trim()
+            insertDebit.remark = edtDescription.text.toString().trim()
+
+            var sum = 0.0
+
+            for (item in debitList) {
+
+                sum += item.total.toDouble()
+
+            }
+
+            insertDebit.total = sum.toString()
+
+            insertDebit.debitModelArrayList = debitList
+
+            Log.e("debit json", Gson().toJson(insertDebit))
+
+            progressDialog.show()
+
+            // ---------------------Add debit api call ----------------
+
+
+            addDebit.addDebitData(insertDebit).enqueue(object : Callback<ResCommon> {
+                override fun onFailure(call: Call<ResCommon>, t: Throwable) {
+                    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }
+                    MyConstants.showToast(this@DebitFormActivity, "Internal server error")
+
+
+                }
+
+                override fun onResponse(call: Call<ResCommon>, response: Response<ResCommon>) {
+                    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }
+
+                    if (response.isSuccessful) {
+
+                        if (response.body()!!.msg.equals("true", true)) {
+
+                            MyConstants.showToast(this@DebitFormActivity, "Successfully added")
+                            finish()
+
+                        } else {
+
+                            MyConstants.showToast(this@DebitFormActivity, "Try again..")
+
+                        }
+
+                    } else {
+
+                        MyConstants.showToast(this@DebitFormActivity, "Internal server error")
+
+
+                    }
+
+
+                }
+
+
+            })
+
+
+        }
+
+    }
+
     // ----------------------menu ------------------------------//
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -284,7 +393,7 @@ class DebitFormActivity : AppCompatActivity() {
             return true
 
         } else if (item!!.itemId == R.id.action_menu_save) {
-
+            saveDebitData()
 
         }
 

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.codefuelindia.dnote.Adapter.AdapterAdsVP;
 import com.codefuelindia.dnote.Common.OnImagePressedListener;
 import com.codefuelindia.dnote.R;
+import com.codefuelindia.dnote.constants.MyConstants;
 import com.codefuelindia.dnote.view.CreditFormActivity;
 import com.codefuelindia.dnote.view.DebitFormActivity;
 import com.codefuelindia.dnote.view.ManageCustomersActivity;
@@ -107,13 +108,24 @@ public class DashboardFragment extends Fragment {
 
 
     private void methodDebit() {
-        Intent i = new Intent(context, DebitFormActivity.class);
-        startActivity(i);
+
+        if (MyConstants.Companion.checkInternetConnection(getActivity())) {
+            Intent i = new Intent(context, DebitFormActivity.class);
+            startActivity(i);
+        } else {
+            MyConstants.Companion.showToast(getActivity(), "Turn on Internet connection");
+        }
+
+
     }
 
     private void methodCredit() {
-        Intent i = new Intent(context, CreditFormActivity.class);
-        startActivity(i);
+        if (MyConstants.Companion.checkInternetConnection(getActivity())) {
+            Intent i = new Intent(context, CreditFormActivity.class);
+            startActivity(i);
+        } else {
+            MyConstants.Companion.showToast(getActivity(), "Turn on Internet connection");
+        }
     }
 
     private void methodCustomers() {
