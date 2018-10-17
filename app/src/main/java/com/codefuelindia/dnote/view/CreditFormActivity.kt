@@ -42,6 +42,8 @@ import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
@@ -418,62 +420,13 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
 
     // ----------------------  credit adapter--------------------//
 
-    class CreditListAdapter(private val dataSet: ArrayList<History>) :
+    inner class CreditListAdapter(private val dataSet: ArrayList<History>) :
         RecyclerView.Adapter<CreditListAdapter.ViewHolder>() {
 
         /**
          * Provide a reference to the type of views that you are using (custom ViewHolder)
          */
-        class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-            val tvDate: TextView
-            val tvRate: TextView
-
-            init {
-                // Define click listener for the ViewHolder's View.
-                v.setOnClickListener { Log.d(TAG, "Element $adapterPosition clicked.") }
-                tvDate = v.findViewById(R.id.tvDate)
-                tvRate = v.findViewById(R.id.tvRate)
-            }
-        }
-
-        // Create new views (invoked by the layout manager)
-        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-            // Create a new view.
-            val v = LayoutInflater.from(viewGroup.context)
-                .inflate(R.layout.row_credit_history_header, viewGroup, false)
-
-            return ViewHolder(v)
-        }
-
-        // Replace the contents of a view (invoked by the layout manager)
-        override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-            Log.d(TAG, "Element $position set.")
-
-            // Get element from your dataset at this position and replace the contents of the view
-            // with that element
-
-            viewHolder.tvDate.text = dataSet[position].createAt
-            viewHolder.tvRate.text = dataSet[position].rs
-        }
-
-        // Return the size of your dataset (invoked by the layout manager)
-        override fun getItemCount() = dataSet.size
-
-        companion object {
-            private val TAG = "CustomAdapter"
-        }
-    }
-
-
-    // ------------------------------------ Debit list adapter-----------------------------//
-
-    class DebitListAdapter(private val dataSet: ArrayList<History>) :
-        RecyclerView.Adapter<DebitListAdapter.ViewHolder>() {
-
-        /**
-         * Provide a reference to the type of views that you are using (custom ViewHolder)
-         */
-        class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+        inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             val tvDate: TextView
             val tvRate: TextView
 
@@ -500,16 +453,60 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
             // Get element from your dataset at this position and replace the contents of the view
             // with that element
 
-            viewHolder.tvDate.text = dataSet[position].createAt
+            viewHolder.tvDate.text = getYMDDate(dataSet[position].createAt).toString()
             viewHolder.tvRate.text = dataSet[position].rs
         }
 
         // Return the size of your dataset (invoked by the layout manager)
         override fun getItemCount() = dataSet.size
 
-        companion object {
-            private val TAG = "CustomAdapter"
+
+    }
+
+
+    // ------------------------------------ Debit list adapter-----------------------------//
+
+    inner class DebitListAdapter(private val dataSet: ArrayList<History>) :
+        RecyclerView.Adapter<DebitListAdapter.ViewHolder>() {
+
+        /**
+         * Provide a reference to the type of views that you are using (custom ViewHolder)
+         */
+        inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+            val tvDate: TextView
+            val tvRate: TextView
+
+            init {
+                // Define click listener for the ViewHolder's View.
+                v.setOnClickListener { }
+                tvDate = v.findViewById(R.id.tvDate)
+                tvRate = v.findViewById(R.id.tvRate)
+            }
         }
+
+        // Create new views (invoked by the layout manager)
+        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+            // Create a new view.
+            val v = LayoutInflater.from(viewGroup.context)
+                .inflate(R.layout.row_credit_history_header, viewGroup, false)
+
+            return ViewHolder(v)
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+
+            // Get element from your dataset at this position and replace the contents of the view
+            // with that element
+
+            viewHolder.tvDate.text = getYMDDate(dataSet[position].createAt).toString()
+            viewHolder.tvRate.text = dataSet[position].rs
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        override fun getItemCount() = dataSet.size
+
+
     }
 
 
@@ -712,10 +709,12 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 tableCompanyHeaderCell1.horizontalAlignment = PdfPTable.ALIGN_MIDDLE
                 tableCompanyHeaderCell1.verticalAlignment = PdfPTable.ALIGN_MIDDLE
 
-                tableCompanyHeaderCell1.addElement(Phrase(
-                    lineSpacing, companyName,
-                    FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
-                ))
+                tableCompanyHeaderCell1.addElement(
+                    Phrase(
+                        lineSpacing, companyName,
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
 
 
                 tableCompanyHeader.addCell(
@@ -833,6 +832,23 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
 
 
         }
+
+
+    }
+
+
+    fun getYMDDate(dateString: String): String {
+
+
+//        val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+//        val date = format.parse(dateString)
+
+        val dateTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(dateString)
+        return SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(dateTime)
+
+        //  Log.e("formated date", newstring)
+
+        //  return SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(newstring)
 
 
     }

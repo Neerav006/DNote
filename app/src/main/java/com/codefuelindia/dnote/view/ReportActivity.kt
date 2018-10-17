@@ -159,13 +159,13 @@ class ReportActivity : AppCompatActivity() {
                                     creditList = response.body() as ArrayList<History>
                                     if (creditList.size > 0) {
 
-                                        report_rvCreditList.adapter = CreditFormActivity.CreditListAdapter(creditList)
+                                        report_rvCreditList.adapter = CreditListAdapter(creditList)
                                         showCreditDebitTotal()
 
 
                                     } else {
                                         creditList.clear()
-                                        report_rvCreditList.adapter = CreditFormActivity.CreditListAdapter(ArrayList())
+                                        report_rvCreditList.adapter = CreditListAdapter(ArrayList())
                                         showCreditDebitTotal()
                                     }
 
@@ -199,12 +199,12 @@ class ReportActivity : AppCompatActivity() {
 
                                     debitList = response.body() as ArrayList<History>
                                     if (debitList.size > 0) {
-                                        report_rvDebitList.adapter = CreditFormActivity.DebitListAdapter(debitList)
+                                        report_rvDebitList.adapter = DebitListAdapter(debitList)
                                         showCreditDebitTotal()
 
 
                                     } else {
-                                        report_rvDebitList.adapter = CreditFormActivity.CreditListAdapter(ArrayList())
+                                        report_rvDebitList.adapter = DebitListAdapter(ArrayList())
                                         debitList.clear()
                                         showCreditDebitTotal()
 
@@ -258,12 +258,12 @@ class ReportActivity : AppCompatActivity() {
                                     creditList = response.body() as ArrayList<History>
                                     if (creditList.size > 0) {
 
-                                        report_rvCreditList.adapter = CreditFormActivity.CreditListAdapter(creditList)
+                                        report_rvCreditList.adapter = CreditListAdapter(creditList)
                                         showCreditDebitTotal()
 
 
                                     } else {
-                                        report_rvCreditList.adapter = CreditFormActivity.CreditListAdapter(ArrayList())
+                                        report_rvCreditList.adapter = CreditListAdapter(ArrayList())
                                         creditList.clear()
                                         showCreditDebitTotal()
 
@@ -299,12 +299,12 @@ class ReportActivity : AppCompatActivity() {
 
                                     debitList = response.body() as ArrayList<History>
                                     if (debitList.size > 0) {
-                                        report_rvDebitList.adapter = CreditFormActivity.DebitListAdapter(debitList)
+                                        report_rvDebitList.adapter = DebitListAdapter(debitList)
                                         showCreditDebitTotal()
 
 
                                     } else {
-                                        report_rvDebitList.adapter = CreditFormActivity.DebitListAdapter(ArrayList())
+                                        report_rvDebitList.adapter = DebitListAdapter(ArrayList())
                                         debitList.clear()
                                         showCreditDebitTotal()
 
