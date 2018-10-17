@@ -25,8 +25,7 @@ public class ManageProductsActivity extends AppCompatActivity {
 
     private static final String BASE_URL = "http://code-fuel.in/dnote/api/";
     ProductListAPI productListAPI;
-
-
+    
     RecyclerView recyclerView_productList;
     TextView textView_noproducts;
     ProgressBar progressBar;
@@ -41,6 +40,9 @@ public class ManageProductsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_products);
 
         productListAPI = getCustomerListAPIService(BASE_URL);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.manageProducts_toolbar);
+        setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -162,10 +164,11 @@ public class ManageProductsActivity extends AppCompatActivity {
             viewHolder.getLinearLayout_row().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getApplicationContext(), "position: " + position, Toast.LENGTH_SHORT).show();
 
                     Intent i = new Intent(ManageProductsActivity.this, ProductItemDetailsActivity.class);
+
                     i.putExtra("name", mDataSet.get(position).getName());
+                    i.putExtra("rate", mDataSet.get(position).getRate());
 
                     startActivity(i);
 
