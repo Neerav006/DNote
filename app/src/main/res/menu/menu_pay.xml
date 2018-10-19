@@ -3,7 +3,7 @@
 
     <item android:id="@+id/action_menu_pay" android:title="@string/pay" app:showAsAction="always"/>
 
-    <item android:visible="false" android:id="@+id/action_menu_share" android:icon="@drawable/ic_share_black_24dp" android:title="@string/share" app:showAsAction="always"/>
+    <item  android:id="@+id/action_menu_share" android:icon="@drawable/ic_share_black_24dp" android:title="@string/share" app:showAsAction="always"/>
 
 
 

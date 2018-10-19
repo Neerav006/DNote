@@ -704,21 +704,17 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 val tableCompanyHeader = PdfPTable(3)
                 tableCompanyHeader.setWidths(intArrayOf(2, 1, 2))
                 tableCompanyHeader.horizontalAlignment = Element.ALIGN_CENTER
+                tableCompanyHeader.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
 
-                val tableCompanyHeaderCell1 = PdfPCell()
-                tableCompanyHeaderCell1.horizontalAlignment = PdfPTable.ALIGN_MIDDLE
-                tableCompanyHeaderCell1.verticalAlignment = PdfPTable.ALIGN_MIDDLE
 
-                tableCompanyHeaderCell1.addElement(
+
+
+
+                tableCompanyHeader.addCell(
                     Phrase(
                         lineSpacing, companyName,
                         FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
                     )
-                )
-
-
-                tableCompanyHeader.addCell(
-                    tableCompanyHeaderCell1
                 )
 
                 tableCompanyHeader.addCell(
@@ -736,6 +732,11 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 )
 
                 val reportHeader = PdfPTable(1)
+
+                reportHeader.spacingBefore = 30f
+                reportHeader.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
+                reportHeader.defaultCell.paddingTop = 5f
+                reportHeader.defaultCell.paddingBottom = 5f
                 reportHeader.addCell(
                     Phrase(
                         lineSpacing, "Credit Debit Report",
@@ -743,10 +744,13 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                     )
                 )
 
+
                 val customerDetail = PdfPTable(4)
                 customerDetail.setWidths(intArrayOf(1, 1, 1, 1))
                 customerDetail.horizontalAlignment = Element.ALIGN_CENTER
-
+                customerDetail.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
+                customerDetail.defaultCell.paddingTop = 5f
+                customerDetail.defaultCell.paddingBottom = 5f
 
                 customerDetail.addCell(
                     Phrase(
@@ -778,6 +782,9 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 val debitHeader = PdfPTable(2)
                 debitHeader.setWidths(intArrayOf(1, 1))
                 debitHeader.horizontalAlignment = Element.ALIGN_CENTER
+                debitHeader.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
+                debitHeader.defaultCell.paddingTop = 5f
+                debitHeader.defaultCell.paddingBottom = 5f
 
 
                 debitHeader.addCell(
@@ -795,11 +802,127 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 )
 
 
+                val historyHeader = PdfPTable(4)
+                historyHeader.setWidths(intArrayOf(1, 1, 1, 1))
+                historyHeader.horizontalAlignment = Element.ALIGN_CENTER
+                historyHeader.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
+
+                historyHeader.addCell(
+                    Phrase(
+                        lineSpacing, "Date",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                historyHeader.addCell(
+                    Phrase(
+                        lineSpacing, "Rs",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                historyHeader.addCell(
+                    Phrase(
+                        lineSpacing, "Date",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                historyHeader.addCell(
+                    Phrase(
+                        lineSpacing, "Rs",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+
+                val count = if (debitList.size > creditList.size) {
+                    debitList.size
+                } else {
+                    creditList.size
+                }
+
                 document.add(tableCompanyHeader)
-                document.add(reportHeader)
                 document.add(customerDetail)
+                document.add(reportHeader)
                 document.add(debitHeader)
+                document.add(historyHeader)
+
+
+
+
+
+                for (i in 0 until count) {
+
+                    val rsCreditTable = PdfPTable(4)
+                    rsCreditTable.setWidths(intArrayOf(1, 1, 1, 1))
+
+                    if (i < creditList.size) {
+
+
+                        rsCreditTable.addCell(
+                            Phrase(
+                                lineSpacing, creditList[i].createAt,
+                                FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                            )
+                        )
+
+                        rsCreditTable.addCell(
+                            Phrase(
+                                lineSpacing, creditList[i].rs,
+                                FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                            )
+                        )
+
+
+                    }
+
+
+                    if (i < debitList.size) {
+
+
+                        rsCreditTable.addCell(
+                            Phrase(
+                                lineSpacing, debitList[i].createAt,
+                                FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                            )
+                        )
+
+                        rsCreditTable.addCell(
+                            Phrase(
+                                lineSpacing, debitList[i].rs,
+                                FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                            )
+                        )
+
+
+                    } else {
+
+                        rsCreditTable.addCell(
+                            Phrase(
+                                lineSpacing, "",
+                                FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                            )
+                        )
+
+                        rsCreditTable.addCell(
+                            Phrase(
+                                lineSpacing, "",
+                                FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                            )
+                        )
+
+
+                    }
+
+                    document.add(rsCreditTable)
+
+
+                }
+
                 document.close()
+
+
 
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)
