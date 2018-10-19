@@ -77,11 +77,6 @@ public class DashNavigationActivity extends AppCompatActivity
             startActivity(i);
             navigationView.getMenu().getItem(0).setChecked(true);
 
-        } else if (id == R.id.nav_report) {
-            Intent i = new Intent(DashNavigationActivity.this, ReportActivity.class);
-            startActivity(i);
-            navigationView.getMenu().getItem(0).setChecked(true);
-
         } else if (id == R.id.nav_logout) {
             showLogoutDialog();
             navigationView.getMenu().getItem(0).setChecked(true);

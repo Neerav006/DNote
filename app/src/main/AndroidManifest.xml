@@ -99,6 +99,9 @@
                 android:label="@string/title_activity_summary_report"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".view.ChooseReportTypeActivity">
+        </activity>
+
     </application>
 
 </manifest>

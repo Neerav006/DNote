@@ -50,7 +50,7 @@ class ReportActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        report_toolbar?.title = "Credit form"
+        report_toolbar?.title = "Report"
         report_toolbar?.setNavigationOnClickListener { finish() }
 
         getUserList = RetrofitClient.getClient(MyConstants.BASE_URL).create(UserListFetch::class.java)
@@ -460,29 +460,35 @@ class ReportActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
-        menuInflater.inflate(R.menu.menu_pay, menu)
-
+        menuInflater.inflate(R.menu.menu_action_report, menu)
 
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
-        if (item!!.itemId == R.id.action_menu_pay) {
+        if (item!!.itemId == R.id.reportAction_menu_print) {
+            printReport()
 
-            if (selectedUser != null) {
+            return true
+        }
 
-                showPayDialog()
-
-
-            }
-
+        if (item!!.itemId == R.id.reportAction_menu_share) {
+            shareReport()
 
             return true
         }
 
 
         return false
+    }
+
+    private fun printReport() {
+
+    }
+
+    private fun shareReport() {
+
     }
 
     fun showPayDialog() {
@@ -556,7 +562,6 @@ class ReportActivity : AppCompatActivity() {
 
 
     }
-
 
 
 }

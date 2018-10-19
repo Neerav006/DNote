@@ -144,6 +144,9 @@ public class ManageCustomersActivity extends AppCompatActivity {
 
             viewHolder.getTextView_index().setText(String.valueOf(position + 1));
             viewHolder.getTextView_name().setText(mDataSet.get(position).getName());
+            viewHolder.getTextView_number().setText(mDataSet.get(position).getMobile());
+            viewHolder.getTextView_city().setText(mDataSet.get(position).getCity());
+            viewHolder.getTextView_remainAmt().setText(mDataSet.get(position).getRemainingPayment());
 
             viewHolder.getLinearLayout_row().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -176,7 +179,7 @@ public class ManageCustomersActivity extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
 
             private final LinearLayout linearLayout_row;
-            private final TextView textView_index, textView_name;
+            private final TextView textView_index, textView_name, textView_number, textView_city, textView_remainAmt;
 
             ViewHolder(View v) {
                 super(v);
@@ -184,7 +187,9 @@ public class ManageCustomersActivity extends AppCompatActivity {
                 linearLayout_row = (LinearLayout) v.findViewById(R.id.row_list_customers);
                 textView_index = (TextView) v.findViewById(R.id.row_customerList_tv_index);
                 textView_name = (TextView) v.findViewById(R.id.row_customerList_tv_name);
-
+                textView_number = (TextView) v.findViewById(R.id.row_customerList_tv_number);
+                textView_city = (TextView) v.findViewById(R.id.row_customerList_tv_city);
+                textView_remainAmt = (TextView) v.findViewById(R.id.row_customerList_tv_amount);
             }
 
             public LinearLayout getLinearLayout_row() {
@@ -199,6 +204,17 @@ public class ManageCustomersActivity extends AppCompatActivity {
                 return textView_index;
             }
 
+            public TextView getTextView_number() {
+                return textView_number;
+            }
+
+            public TextView getTextView_city() {
+                return textView_city;
+            }
+
+            public TextView getTextView_remainAmt() {
+                return textView_remainAmt;
+            }
         }
 
     }

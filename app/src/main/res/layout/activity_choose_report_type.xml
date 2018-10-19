@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="3"
+        android:orientation="vertical"
+        android:background="@color/bg_softGrey"
+        tools:context=".view.ChooseReportTypeActivity">
+
+
+    <LinearLayout
+            android:id="@+id/chooseReport_tv_detailsReport"
+            android:background="@color/dark_white"
+            android:weightSum="2"
+            android:elevation="5dp"
+            android:layout_margin="18dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+        <TextView
+                android:layout_weight="1.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Detail Report"
+                android:textColor="@color/raisinBlack"
+                android:textSize="20sp"/>
+
+        <TextView
+                android:layout_weight="0.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text=">>"
+                android:textColor="@color/raisinBlack"
+                android:textSize="20sp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:id="@+id/chooseReport_tv_productReport"
+            android:background="@color/dark_white"
+            android:elevation="5dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_margin="18dp"
+            android:weightSum="2">
+
+        <TextView
+                android:layout_weight="1.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Product Detail Report"
+                android:textColor="@color/raisinBlack"
+                android:textSize="20sp"/>
+
+        <TextView
+                android:layout_weight="0.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text=">>"
+                android:textColor="@color/raisinBlack"
+                android:textSize="20sp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:id="@+id/chooseReport_tv_summaryReport"
+            android:elevation="5dp"
+            android:background="@color/dark_white"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:weightSum="2"
+            android:layout_margin="18dp">
+
+        <TextView
+                android:layout_weight="1.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Summary Report"
+                android:textColor="@color/raisinBlack"
+                android:textSize="20sp"/>
+
+        <TextView
+                android:layout_weight="0.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text=">>"
+                android:textColor="@color/raisinBlack"
+                android:textSize="20sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

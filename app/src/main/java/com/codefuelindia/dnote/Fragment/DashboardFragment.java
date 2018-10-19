@@ -19,10 +19,7 @@ import com.codefuelindia.dnote.Adapter.AdapterAdsVP;
 import com.codefuelindia.dnote.Common.OnImagePressedListener;
 import com.codefuelindia.dnote.R;
 import com.codefuelindia.dnote.constants.MyConstants;
-import com.codefuelindia.dnote.view.CreditFormActivity;
-import com.codefuelindia.dnote.view.DebitFormActivity;
-import com.codefuelindia.dnote.view.ManageCustomersActivity;
-import com.codefuelindia.dnote.view.ManageProductsActivity;
+import com.codefuelindia.dnote.view.*;
 
 import java.util.ArrayList;
 
@@ -32,7 +29,7 @@ public class DashboardFragment extends Fragment {
     private Context context;
 
     View view_main;
-    CardView cardView_debit, cardView_credit, cardView_customers, cardView_products;
+    CardView cardView_debit, cardView_credit, cardView_customers, cardView_products, cardView_reports;
     ViewPager viewPager_ads;
 
 
@@ -64,6 +61,7 @@ public class DashboardFragment extends Fragment {
         cardView_credit = view_main.findViewById(R.id.dash_card_credit);
         cardView_customers = view_main.findViewById(R.id.dash_card_manageCustomers);
         cardView_products = view_main.findViewById(R.id.dash_card_manageProducts);
+        cardView_reports = view_main.findViewById(R.id.dash_card_reports);
         viewPager_ads = view_main.findViewById(R.id.dash_viewPager_ads);
 
 
@@ -95,6 +93,13 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+        cardView_reports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                methodReports();
+            }
+        });
+
 
         tipsArray.add(R.drawable.codefuel);
         tipsArray.add(R.drawable.codefuel);
@@ -104,6 +109,11 @@ public class DashboardFragment extends Fragment {
 
 
         return view_main;
+    }
+
+    private void methodReports() {
+        Intent i = new Intent(context, ChooseReportTypeActivity.class);
+        startActivity(i);
     }
 
 

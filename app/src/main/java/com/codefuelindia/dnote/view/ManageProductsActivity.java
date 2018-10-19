@@ -1,7 +1,6 @@
 package com.codefuelindia.dnote.view;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -158,6 +157,13 @@ public class ManageProductsActivity extends AppCompatActivity {
             viewHolder.getTextView_name().setText(mDataSet.get(position).getName());
             viewHolder.getTextView_rate().setText(mDataSet.get(position).getRate() + "/-");
 
+            viewHolder.getImageView_remove().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getApplicationContext(), "Clicked: " + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+
             viewHolder.getLinearLayout_row().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -183,6 +189,7 @@ public class ManageProductsActivity extends AppCompatActivity {
 
             private final LinearLayout linearLayout_row;
             private final TextView textView_index, textView_name, textView_rate;
+            private final ImageView imageView_remove;
 
             ViewHolder(View v) {
                 super(v);
@@ -191,6 +198,7 @@ public class ManageProductsActivity extends AppCompatActivity {
                 textView_index = (TextView) v.findViewById(R.id.row_productList_tv_index);
                 textView_name = (TextView) v.findViewById(R.id.row_productList_tv_name);
                 textView_rate = (TextView) v.findViewById(R.id.row_productList_tv_rate);
+                imageView_remove = (ImageView) v.findViewById(R.id.row_productList_iv_remove);
 
             }
 
@@ -208,6 +216,10 @@ public class ManageProductsActivity extends AppCompatActivity {
 
             TextView getTextView_rate() {
                 return textView_rate;
+            }
+
+            public ImageView getImageView_remove() {
+                return imageView_remove;
             }
         }
 

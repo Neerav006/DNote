@@ -34,4 +34,12 @@
             android:text="100/-"
             android:textSize="15sp"/>
 
+    <ImageView
+            android:id="@+id/row_productList_iv_remove"
+            android:padding="2dp"
+            android:background="@color/main_theme_red"
+            android:src="@drawable/ic_white_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
 </LinearLayout>
