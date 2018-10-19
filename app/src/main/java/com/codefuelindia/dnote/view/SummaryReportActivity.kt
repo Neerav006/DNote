@@ -115,12 +115,12 @@ class SummaryReportActivity : AppCompatActivity() {
                     userList = response.body() as ArrayList<User>
                     if (userList.size > 0) {
 
-                        for (items in userList) {
-                            if (items.remainingPayment.isNotEmpty() && items.remainingPayment.toDouble() == 0.0) {
-                                userList.remove(items)
-
-                            }
-                        }
+//                        for (items in userList) {
+//                            if (items.remainingPayment.isNotEmpty() && items.remainingPayment.toDouble() == 0.0) {
+//                                userList.remove(items)
+//
+//                            }
+//                        }
 
 
 
