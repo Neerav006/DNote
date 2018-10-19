@@ -103,8 +103,8 @@ class DebitFormActivity : AppCompatActivity() {
         getUserList.getUserList().enqueue(object : Callback<List<User>> {
             override fun onFailure(call: Call<List<User>>, t: Throwable) {
 
-                isResponceOk =false
-                MyConstants.showToast(this@DebitFormActivity,"Server error!Try again")
+                isResponceOk = false
+                MyConstants.showToast(this@DebitFormActivity, "Server error!Try again")
                 finish()
 
             }
@@ -137,7 +137,7 @@ class DebitFormActivity : AppCompatActivity() {
                 } else {
 
                     isResponceOk = false
-                    MyConstants.showToast(this@DebitFormActivity,"Server error!Try again")
+                    MyConstants.showToast(this@DebitFormActivity, "Server error!Try again")
                     finish()
 
                 }
@@ -429,6 +429,8 @@ class DebitFormActivity : AppCompatActivity() {
             val inflater = layoutInflater
             val row = inflater.inflate(R.layout.row_autocomplete_user, parent, false)
             val label = row.findViewById(R.id.tvName) as TextView
+            val label22 = row.findViewById<TextView>(R.id.tvMobile)
+            label22.visibility = View.GONE
             label.text = categorylists[position].name
 
 
@@ -457,7 +459,7 @@ class DebitFormActivity : AppCompatActivity() {
             init {
                 // Define click listener for the ViewHolder's View.
                 v.setOnClickListener { }
-                tvName = v.findViewById(R.id.tvProductName)
+                tvName = v.findViewById<TextView>(R.id.tvProductName)
                 tvRate = v.findViewById(R.id.tvRate)
                 tvQty = v.findViewById(R.id.tvQty)
                 tvTotal = v.findViewById(R.id.tvTotal)

@@ -92,8 +92,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/autoCustomerMobile"
                 android:layout_marginStart="8dp"
                 android:textSize="14sp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/tvTotalAmountCredit"/>
+                android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
 
         <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
@@ -114,11 +113,15 @@
                     android:textSize="14sp"/>
         </android.support.design.widget.TextInputLayout>
 
+
+
+
+
         <LinearLayout
                 android:background="@color/colorPrimaryDark"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSepereator"
+                app:layout_constraintTop_toBottomOf="@+id/llTotalCrDrContainer"
                 android:id="@+id/llCrDrHistoryLables"
                 android:weightSum="2"
                 android:orientation="horizontal"
@@ -178,18 +181,10 @@
 
                 <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
                                                         android:id="@+id/rvCreditList"
-                                                        android:nestedScrollingEnabled="true"
-                                                        android:layout_height="250dp"/>
+                                                        android:nestedScrollingEnabled="false"
+                                                        android:layout_height="wrap_content"/>
 
-                <TextView android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/tvTotalCredit"
-                          android:padding="2dp"
-                          android:layout_marginTop="10dp"
-                          android:gravity="center"
-                          android:layout_gravity="center"
-                          android:textStyle="bold"
-                          tools:text="Total: 400"/>
+
 
             </LinearLayout>
 
@@ -209,40 +204,77 @@
 
                 <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
                                                         android:id="@+id/rvDebitList"
-                                                        android:nestedScrollingEnabled="true"
-                                                        android:layout_height="250dp"/>
+                                                        android:nestedScrollingEnabled="false"
+                                                        android:layout_height="wrap_content"/>
 
 
-                <TextView android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/tvTotalDebit"
-                          android:padding="2dp"
-                          android:gravity="center"
-                          android:layout_marginTop="10dp"
-                          android:layout_gravity="center"
-                          android:textStyle="bold"
-                          tools:text="Total: 400"/>
+
             </LinearLayout>
 
 
         </LinearLayout>
 
-        <TextView
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvTotalAmountCredit"
-                tools:text="Remaining Amount:- 400"
-                android:layout_marginStart="8dp"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintHorizontal_bias="0.0"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent"/>
+
+
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      app:layout_constraintStart_toStartOf="parent"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      app:layout_constraintTop_toBottomOf="@id/tvSepereator"
+                      android:id="@+id/llTotalCrDrContainer" android:orientation="vertical">
+
+
+            <TextView
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTotalAmountCredit"
+                    tools:text="Remaining Amount:- 400"
+                    android:layout_marginStart="8dp"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/holo_red_dark"
+                    />
+
+
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+             android:orientation="horizontal" android:weightSum="2">
+
+
+                <TextView android:layout_width="0dp"
+                          android:layout_weight="1"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/tvTotalCredit"
+                          android:padding="2dp"
+                          android:layout_marginTop="10dp"
+                          android:gravity="center"
+                          android:layout_gravity="center"
+                          android:textStyle="bold"
+                          tools:text="Total: 400"/>
+
+                <TextView android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/tvTotalDebit"
+                          android:padding="2dp"
+                          android:layout_weight="1"
+                          android:gravity="center"
+                          android:layout_marginTop="10dp"
+                          android:layout_gravity="center"
+                          android:textStyle="bold"
+                          tools:text="Total: 400"/>
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
 
 
     </android.support.constraint.ConstraintLayout>
+
+
+
 
 </ScrollView>

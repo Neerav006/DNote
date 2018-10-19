@@ -702,6 +702,7 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 lineSpacing = 30f
 
                 val tableCompanyHeader = PdfPTable(3)
+                tableCompanyHeader.spacingBefore = 30f
                 tableCompanyHeader.setWidths(intArrayOf(2, 1, 2))
                 tableCompanyHeader.horizontalAlignment = Element.ALIGN_CENTER
                 tableCompanyHeader.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
@@ -919,6 +920,60 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
 
 
                 }
+
+                var sumDebit = 0.0
+
+                var sumCredit = 0.0
+
+                for (item in debitList) {
+
+                    sumDebit += item.rs.toDouble()
+
+
+                }
+
+
+                for (item in creditList) {
+
+                    sumCredit += item.rs.toDouble()
+
+                }
+
+                val totalCreditDebit = PdfPTable(4)
+                totalCreditDebit.setWidths(intArrayOf(1, 1, 1, 1))
+
+                totalCreditDebit.addCell(
+                    Phrase(
+                        lineSpacing, "Total: ",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                totalCreditDebit.addCell(
+                    Phrase(
+                        lineSpacing, sumCredit.toString(),
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+
+                totalCreditDebit.addCell(
+                    Phrase(
+                        lineSpacing, "Total: ",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                totalCreditDebit.addCell(
+                    Phrase(
+                        lineSpacing, sumDebit.toString(),
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+
+                document.add(totalCreditDebit)
+
 
                 document.close()
 
