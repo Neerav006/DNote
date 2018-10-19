@@ -876,6 +876,23 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                         )
 
 
+                    }else {
+
+                        rsCreditTable.addCell(
+                            Phrase(
+                                lineSpacing, "",
+                                FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                            )
+                        )
+
+                        rsCreditTable.addCell(
+                            Phrase(
+                                lineSpacing, "",
+                                FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                            )
+                        )
+
+
                     }
 
 
