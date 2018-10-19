@@ -77,10 +77,11 @@
                 android:label="Customer Details"
                 android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.ReportActivity"
-                  android:label="Reports"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity
+                android:name=".view.ReportActivity"
+                android:label="Reports"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <provider
@@ -90,10 +91,14 @@
                 android:grantUriPermissions="true">
             <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/filepaths" />
+                    android:resource="@xml/filepaths"/>
         </provider>
 
-
+        <activity
+                android:name=".view.SummaryReportActivity"
+                android:label="@string/title_activity_summary_report"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

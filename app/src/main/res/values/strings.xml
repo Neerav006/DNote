@@ -25,4 +25,6 @@
     <string name="pay">Pay</string>
     <string name="refresh">Refresh</string>
     <string name="share">share</string>
+    <string name="title_activity_summary_report">SummaryReportActivity</string>
+    <string name="pdf">Pdf</string>
 </resources>
