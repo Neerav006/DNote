@@ -3,6 +3,7 @@ package com.codefuelindia.dnote.Fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.TextView;
 import com.codefuelindia.dnote.Adapter.AdapterAdsVP;
 import com.codefuelindia.dnote.Common.OnImagePressedListener;
 import com.codefuelindia.dnote.R;
@@ -31,6 +33,7 @@ public class DashboardFragment extends Fragment {
     View view_main;
     CardView cardView_debit, cardView_credit, cardView_customers, cardView_products, cardView_reports;
     ViewPager viewPager_ads;
+    TextView textView_address;
 
 
     private ArrayList<Integer> tipsArray = new ArrayList<Integer>();
@@ -63,6 +66,7 @@ public class DashboardFragment extends Fragment {
         cardView_products = view_main.findViewById(R.id.dash_card_manageProducts);
         cardView_reports = view_main.findViewById(R.id.dash_card_reports);
         viewPager_ads = view_main.findViewById(R.id.dash_viewPager_ads);
+        textView_address = view_main.findViewById(R.id.dash_tv_address);
 
 
         cardView_debit.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +104,12 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+        textView_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToWebSite();
+            }
+        });
 
         tipsArray.add(R.drawable.codefuel);
         tipsArray.add(R.drawable.codefuel);
@@ -109,6 +119,11 @@ public class DashboardFragment extends Fragment {
 
 
         return view_main;
+    }
+
+    private void goToWebSite() {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.codefuelindia.com/"));
+        startActivity(browserIntent);
     }
 
     private void methodReports() {

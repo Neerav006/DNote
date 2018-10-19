@@ -235,12 +235,15 @@
                 android:weightSum="2">
 
             <TextView
+                    android:id="@+id/dash_tv_address"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="F1, Ashwamegh City Center,\nOpp. Medical College,\nPolytechnic - Gadhoda road,\nHimmatnagar -383001"/>
 
             <TextView
+                    android:textColor="@color/black"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

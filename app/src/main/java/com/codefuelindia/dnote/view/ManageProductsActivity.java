@@ -1,6 +1,8 @@
 package com.codefuelindia.dnote.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -11,10 +13,13 @@ import android.view.*;
 import android.widget.*;
 import com.codefuelindia.dnote.Common.RetrofitClient;
 import com.codefuelindia.dnote.Model.Product;
+import com.codefuelindia.dnote.Model.ResCommon;
 import com.codefuelindia.dnote.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 import java.util.ArrayList;
@@ -24,6 +29,7 @@ public class ManageProductsActivity extends AppCompatActivity {
 
     private static final String BASE_URL = "http://code-fuel.in/dnote/api/";
     ProductListAPI productListAPI;
+    DeleteProductAPI deleteProductAPI;
 
     RecyclerView recyclerView_productList;
     TextView textView_noproducts;
@@ -39,6 +45,7 @@ public class ManageProductsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_products);
 
         productListAPI = getCustomerListAPIService(BASE_URL);
+        deleteProductAPI = getDeleteProductAPIService(BASE_URL);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.manageProducts_toolbar);
         setSupportActionBar(toolbar);
@@ -48,13 +55,13 @@ public class ManageProductsActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.manageProducts_progressBar);
 
 
-        getAllCustomers();
+        getAllProducts();
 
 
     }
 
 
-    private void getAllCustomers() {
+    private void getAllProducts() {
         progressBar.setVisibility(View.VISIBLE);
 
         productListAPI.getProductList().enqueue(new Callback<List<Product>>() {
@@ -121,6 +128,69 @@ public class ManageProductsActivity extends AppCompatActivity {
     }
 
 
+    private void showDeleteDialog(final String p_id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("Are you sure you want to delete this product?")
+                .setTitle("Confirm Delete");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                progressBar.setVisibility(View.VISIBLE);
+
+                deleteProductAPI.deleteProduct(p_id).enqueue(new Callback<ResCommon>() {
+                    @Override
+                    public void onResponse(Call<ResCommon> call, Response<ResCommon> response) {
+
+                        progressBar.setVisibility(View.GONE);
+
+                        if (response.isSuccessful()) {
+
+                            if (response.body() != null) {
+
+                                if (response.body().getMsg().equals("true")) {
+                                    // Product deleted
+                                    Toast.makeText(getApplicationContext(), "Product deleted", Toast.LENGTH_SHORT).show();
+
+                                    resProductArrayList.clear();
+
+                                    recAdapter.notifyDataSetChanged();
+
+                                    getAllProducts();
+
+
+                                }
+
+                            } else {
+                                // response body null
+                            }
+
+                        } else {
+                            // response not successful
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResCommon> call, Throwable t) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                return;
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
 //---------------------------------------- APIs -----------------------------------------------------//
 
     ProductListAPI getCustomerListAPIService(String baseUrl) {
@@ -130,6 +200,17 @@ public class ManageProductsActivity extends AppCompatActivity {
     interface ProductListAPI {
         @POST("getProduct")
         Call<List<Product>> getProductList();
+    }
+
+
+    DeleteProductAPI getDeleteProductAPIService(String baseUrl) {
+        return RetrofitClient.getClient(baseUrl).create(DeleteProductAPI.class);
+    }
+
+    interface DeleteProductAPI {
+        @POST("deleteProduct")
+        @FormUrlEncoded
+        Call<ResCommon> deleteProduct(@Field("id") String id);
     }
 
 
@@ -160,7 +241,10 @@ public class ManageProductsActivity extends AppCompatActivity {
             viewHolder.getImageView_remove().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getApplicationContext(), "Clicked: " + position, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Clicked: " + position, Toast.LENGTH_SHORT).show();
+
+                    showDeleteDialog(mDataSet.get(position).getId());
+
                 }
             });
 
