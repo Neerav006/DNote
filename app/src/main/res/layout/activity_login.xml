@@ -8,18 +8,18 @@
         android:layout_height="match_parent"
         tools:context=".view.LoginActivity">
 
-    <!--<ImageView
-            android:layout_width="150dp"
+    <ImageView
+            android:layout_width="180dp"
             android:layout_height="100dp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:src="@drawable/logoo"
+            android:layout_gravity="center"
+            android:src="@drawable/logo"
             android:textColor="@color/white"
             android:textSize="25sp"
-            android:textStyle="bold" />-->
+            android:textStyle="bold"/>
 
-    <TextView
+    <!--<TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -28,7 +28,7 @@
             android:text="D Note"
             android:textColor="@color/colorPrimary"
             android:textSize="25sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"/>-->
 
     <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
