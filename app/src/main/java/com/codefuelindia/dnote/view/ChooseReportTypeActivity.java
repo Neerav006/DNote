@@ -1,5 +1,6 @@
 package com.codefuelindia.dnote.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -37,6 +38,8 @@ public class ChooseReportTypeActivity extends AppCompatActivity {
         ll_summaryReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                startActivity(new Intent(ChooseReportTypeActivity.this,SummaryReportActivity.class));
 
             }
         });

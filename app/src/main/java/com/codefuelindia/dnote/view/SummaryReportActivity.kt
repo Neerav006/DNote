@@ -16,6 +16,8 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
 import android.widget.TextView
+import android.widget.Toast
+import com.codefuelindia.dnote.Common.RetrofitClient
 import com.codefuelindia.dnote.Common.SessionManager
 import com.codefuelindia.dnote.Common.UserListFetch
 import com.codefuelindia.dnote.Model.User
@@ -43,7 +45,7 @@ class SummaryReportActivity : AppCompatActivity() {
     private val PDF_DIRECTORY = "/Dnote"
     private val FILE_NAME = "summary"
 
-    private lateinit var sessionManager:SessionManager
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,12 +53,50 @@ class SummaryReportActivity : AppCompatActivity() {
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        toolbar?.title = "Summary"
+
+
+        toolbar?.setNavigationOnClickListener {
+            finish()
+        }
+
+        getUserList = RetrofitClient.getClient(MyConstants.BASE_URL).create(UserListFetch::class.java)
+
+
         sessionManager = SessionManager(this@SummaryReportActivity)
 
         rvList.layoutManager = LinearLayoutManager(
             this@SummaryReportActivity,
             LinearLayoutManager.VERTICAL, false
         )
+
+        btnSearch.setOnClickListener { view ->
+
+            if (userList.isNotEmpty() && edtStartAmount.text.toString().isNotEmpty() && edtEndAmount.text.toString().isNotEmpty()) {
+
+                val filteredList = userList.filter {
+                    edtStartAmount.text.toString().toDouble() <= it.remainingPayment.toDouble() &&
+                            edtEndAmount.text.toString().toDouble() >= it.remainingPayment.toDouble()
+                }
+
+                if (filteredList.isNotEmpty()) {
+
+                    rvList.adapter = UserListAdapter(filteredList as ArrayList<User>)
+
+
+                } else {
+                    rvList.adapter = UserListAdapter(ArrayList())
+                    MyConstants.showToast(this@SummaryReportActivity, "No record found")
+                }
+
+
+            }
+
+
+        }
 
 
 
@@ -74,6 +114,15 @@ class SummaryReportActivity : AppCompatActivity() {
 
                     userList = response.body() as ArrayList<User>
                     if (userList.size > 0) {
+
+                        for (items in userList) {
+                            if (items.remainingPayment.isNotEmpty() && items.remainingPayment.toDouble() == 0.0) {
+                                userList.remove(items)
+
+                            }
+                        }
+
+
 
                         rvList.adapter = UserListAdapter(userList)
 
@@ -111,10 +160,20 @@ class SummaryReportActivity : AppCompatActivity() {
             requestWriteExternalPermission()
 
 
-            return userList.size >0
+            return (rvList.adapter as UserListAdapter).getDataSet().size > 0
 
 
+        } else if (item!!.itemId == R.id.action_menu_pdf_refresh) {
+
+
+            rvList.adapter = UserListAdapter(userList)
+            edtStartAmount.text!!.clear()
+            edtEndAmount.text!!.clear()
+
+
+            return true
         }
+
 
 
 
@@ -154,7 +213,7 @@ class SummaryReportActivity : AppCompatActivity() {
         override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
             // Create a new view.
             val v = LayoutInflater.from(viewGroup.context)
-                .inflate(R.layout.row_credit_history_header, viewGroup, false)
+                .inflate(R.layout.row_user_list_summary, viewGroup, false)
 
             return ViewHolder(v)
         }
@@ -179,6 +238,10 @@ class SummaryReportActivity : AppCompatActivity() {
         override fun getItemCount() = dataSet.size
 
 
+        fun getDataSet(): ArrayList<User> {
+            return dataSet
+        }
+
     }
 
 
@@ -189,7 +252,7 @@ class SummaryReportActivity : AppCompatActivity() {
 
         if (EasyPermissions.hasPermissions(this, *perms)) {
 
-            generateReportPdf("TCS", "9558521007", "Gandhinagar")
+            generateReportPdf(sessionManager.userName, sessionManager.mobile, sessionManager.addr)
 
         } else {
             EasyPermissions.requestPermissions(
@@ -285,6 +348,7 @@ class SummaryReportActivity : AppCompatActivity() {
                 lineSpacing = 30f
 
                 val tableCompanyHeader = PdfPTable(3)
+                tableCompanyHeader.widthPercentage = 100f
                 tableCompanyHeader.spacingBefore = 30f
                 tableCompanyHeader.setWidths(intArrayOf(2, 1, 2))
                 tableCompanyHeader.horizontalAlignment = Element.ALIGN_CENTER
@@ -316,6 +380,7 @@ class SummaryReportActivity : AppCompatActivity() {
                 )
 
                 val reportHeader = PdfPTable(1)
+                reportHeader.widthPercentage = 100f
 
                 reportHeader.spacingBefore = 30f
                 reportHeader.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
@@ -323,23 +388,15 @@ class SummaryReportActivity : AppCompatActivity() {
                 reportHeader.defaultCell.paddingBottom = 5f
                 reportHeader.addCell(
                     Phrase(
-                        lineSpacing, "Credit Debit Report",
+                        lineSpacing, "Summary Report",
                         FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
                     )
                 )
 
 
-                val customerDetail = PdfPTable(4)
-                customerDetail.setWidths(intArrayOf(1, 1, 1, 1))
-                customerDetail.horizontalAlignment = Element.ALIGN_CENTER
-                customerDetail.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
-                customerDetail.defaultCell.paddingTop = 5f
-                customerDetail.defaultCell.paddingBottom = 5f
-
-
-
-                val debitHeader = PdfPTable(2)
-                debitHeader.setWidths(intArrayOf(1, 1))
+                val debitHeader = PdfPTable(7)
+                debitHeader.widthPercentage = 100f
+                debitHeader.setWidths(intArrayOf(1, 1, 1, 1, 1, 1, 1))
                 debitHeader.horizontalAlignment = Element.ALIGN_CENTER
                 debitHeader.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
                 debitHeader.defaultCell.paddingTop = 5f
@@ -348,48 +405,49 @@ class SummaryReportActivity : AppCompatActivity() {
 
                 debitHeader.addCell(
                     Phrase(
-                        lineSpacing, "Credit",
+                        lineSpacing, "Sr No",
                         FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
                     )
                 )
 
                 debitHeader.addCell(
                     Phrase(
-                        lineSpacing, "Debit",
+                        lineSpacing, "Name",
                         FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
                     )
                 )
 
-
-                val historyHeader = PdfPTable(4)
-                historyHeader.setWidths(intArrayOf(1, 1, 1, 1))
-                historyHeader.horizontalAlignment = Element.ALIGN_CENTER
-                historyHeader.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
-
-                historyHeader.addCell(
+                debitHeader.addCell(
                     Phrase(
-                        lineSpacing, "Date",
+                        lineSpacing, "Mobile",
                         FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
                     )
                 )
 
-                historyHeader.addCell(
+                debitHeader.addCell(
                     Phrase(
-                        lineSpacing, "Rs",
+                        lineSpacing, "City",
                         FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
                     )
                 )
 
-                historyHeader.addCell(
+                debitHeader.addCell(
                     Phrase(
-                        lineSpacing, "Date",
+                        lineSpacing, "Total Debit",
                         FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
                     )
                 )
 
-                historyHeader.addCell(
+                debitHeader.addCell(
                     Phrase(
-                        lineSpacing, "Rs",
+                        lineSpacing, "Total Credit",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+                debitHeader.addCell(
+                    Phrase(
+                        lineSpacing, "Total Remaining",
                         FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
                     )
                 )
@@ -398,23 +456,111 @@ class SummaryReportActivity : AppCompatActivity() {
 
 
                 document.add(tableCompanyHeader)
-                document.add(customerDetail)
                 document.add(reportHeader)
                 document.add(debitHeader)
-                document.add(historyHeader)
+
+                for ((index, value) in (rvList.adapter as UserListAdapter).getDataSet().withIndex()) {
+
+                    val dataOfCrdr = PdfPTable(7)
+                    dataOfCrdr.widthPercentage = 100f
+                    dataOfCrdr.setWidths(intArrayOf(1, 1, 1, 1, 1, 1, 1))
+                    dataOfCrdr.horizontalAlignment = Element.ALIGN_CENTER
+                    dataOfCrdr.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
+                    dataOfCrdr.defaultCell.paddingTop = 5f
+                    dataOfCrdr.defaultCell.paddingBottom = 5f
+
+                    dataOfCrdr.addCell(
+                        Phrase(
+                            lineSpacing, (index + 1).toString(),
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
+                    )
+
+                    dataOfCrdr.addCell(
+                        Phrase(
+                            lineSpacing, value.name,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
+                    )
+
+                    dataOfCrdr.addCell(
+                        Phrase(
+                            lineSpacing, value.mobile,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
+                    )
+
+                    dataOfCrdr.addCell(
+                        Phrase(
+                            lineSpacing, value.city,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
+                    )
+                    dataOfCrdr.addCell(
+                        Phrase(
+                            lineSpacing, value.totalPayment,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
+                    )
+
+                    dataOfCrdr.addCell(
+                        Phrase(
+                            lineSpacing, value.collectedPayment,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
+                    )
+
+                    dataOfCrdr.addCell(
+                        Phrase(
+                            lineSpacing, value.remainingPayment,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
+                    )
+
+
+                    document.add(dataOfCrdr)
+
+
+                }
+
+                val footer1 = PdfPTable(1)
+                footer1.widthPercentage = 100f
+                footer1.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
+                footer1.defaultCell.paddingTop = 5f
+                footer1.defaultCell.paddingBottom = 5f
+
+                footer1.addCell(
+                    Phrase(
+                        lineSpacing, "Design & Developed By Codefuel Technology Pvt. Ltd. ",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+
+                val footer2 = PdfPTable(1)
+                footer2.widthPercentage = 100f
+                footer2.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
+                footer2.defaultCell.paddingTop = 5f
+                footer2.defaultCell.paddingBottom = 5f
+
+                footer2.addCell(
+                    Phrase(
+                        lineSpacing, "Mobile :- 9427745635 E-Mail :- info@codefuelindia.com\n" +
+                                "F-1, Ashwamegh City Center, Opp. Medical College, Polytechnic-Gadhoda Road, Motipura, Himmatnagar, Gujarat\n" +
+                                "383001",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
 
 
 
 
-
-
-
+                document.add(footer1)
+                document.add(footer2)
 
 
 
                 document.close()
-
-
 
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)

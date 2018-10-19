@@ -86,11 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void fake_login() {
-        sessionManager.createLoginSession("name", "token", "u_id");
-        startActivity(new Intent(LoginActivity.this, DashNavigationActivity.class));
-        finish();
-    }
+
 
     private void method_login() {
 
@@ -134,13 +130,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             switch (response.body().getMsg()) {
 
                                 case "true":
-                                    String name, number, u_id;
+                                    String name, number, u_id,addr,mobile;
                                     name = response.body().getName();
                                     number = response.body().getNumber();
                                     u_id = response.body().getU_id();
+                                    addr = response.body().getAddress();
+                                    mobile = response.body().getMobile();
 
                                     finish();
-                                    sessionManager.createLoginSession(name, number, u_id);
+                                    sessionManager.createLoginSession(name, number, u_id,mobile,addr);
 
                                     Intent i = new Intent(LoginActivity.this, DashNavigationActivity.class);
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

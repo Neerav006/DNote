@@ -11,6 +11,8 @@ public class SessionManager {
     private static final String KEY_NAME = "name";
     private static final String KEY_NUMBER = "number";
     private static final String KEY_U_ID = "u_id";
+    private static final String KEY_ADDR = "addr";
+    private static final String KEY_MOBILE = "mobile";
     private static final String IS_FIRST_PHOTO_UPLOAD = "first_photo";
     SharedPreferences mainPref;
     SharedPreferences.Editor editor;
@@ -24,13 +26,15 @@ public class SessionManager {
         editor = mainPref.edit();
     }
 
-    public void createLoginSession(String name, String number, String u_id) {
+    public void createLoginSession(String name, String number, String u_id, String mobile, String addr) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
         editor.putString(KEY_NAME, name);
         editor.putString(KEY_NUMBER, number);
         editor.putString(KEY_U_ID, u_id);
+        editor.putString(KEY_MOBILE, mobile);
+        editor.putString(KEY_ADDR, addr);
 
         editor.commit();
         Toast.makeText(_context, "Logged In", Toast.LENGTH_SHORT).show();
@@ -46,6 +50,14 @@ public class SessionManager {
 
     public String getKeyUId() {
         return mainPref.getString(KEY_U_ID, null);
+    }
+
+    public String getAddr() {
+        return mainPref.getString(KEY_ADDR, null);
+    }
+
+    public String getMobile() {
+        return mainPref.getString(KEY_MOBILE, null);
     }
 
     public boolean checkLogin() {

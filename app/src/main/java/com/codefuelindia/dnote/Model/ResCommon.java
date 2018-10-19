@@ -25,6 +25,31 @@ public class ResCommon {
     @Expose
     private String number;
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    @SerializedName("mobile")
+    @Expose
+    private String mobile;
+
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @SerializedName("address")
+    @Expose
+    private String address;
+
 
     public String getMsg() {
         return msg;
