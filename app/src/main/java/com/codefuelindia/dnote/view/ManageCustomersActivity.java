@@ -34,9 +34,10 @@ public class ManageCustomersActivity extends AppCompatActivity {
     TextView textView_noCustomers;
     ProgressBar progressBar;
 
-
     RecAdapter recAdapter;
     private ArrayList<User> resCustomerArrayList;
+
+    String flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,10 @@ public class ManageCustomersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_customers);
 
         customerListAPI = getCustomerListAPIService(BASE_URL);
+
+        if (getIntent() != null) {
+            flag = getIntent().getStringExtra("flag");
+        }
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -152,7 +157,7 @@ public class ManageCustomersActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    Intent i = new Intent(ManageCustomersActivity.this, CustomerDetailsActivity.class);
+                    /*Intent i = new Intent(ManageCustomersActivity.this, CustomerDetailsActivity.class);
 
                     i.putExtra("name", mDataSet.get(position).getName());
                     i.putExtra("number", mDataSet.get(position).getMobile());
@@ -163,8 +168,33 @@ public class ManageCustomersActivity extends AppCompatActivity {
                     i.putExtra("collectedPayment", mDataSet.get(position).getCollectedPayment());
                     i.putExtra("remainingPayment", mDataSet.get(position).getRemainingPayment());
 
+                    startActivity(i);*/
 
-                    startActivity(i);
+                    if (flag != null) {
+
+                        Intent i = new Intent(ManageCustomersActivity.this, ProductReportActivity.class);
+
+                        i.putExtra("id", mDataSet.get(position).getId());
+                        i.putExtra("name", mDataSet.get(position).getName());
+                        i.putExtra("number", mDataSet.get(position).getMobile());
+                        i.putExtra("city", mDataSet.get(position).getCity());
+                        i.putExtra("address", mDataSet.get(position).getAddress());
+                        i.putExtra("remainingPayment", mDataSet.get(position).getRemainingPayment());
+
+                        startActivity(i);
+
+                    } else {
+
+                        Intent i = new Intent(ManageCustomersActivity.this, CreditFormActivity.class);
+
+                        i.putExtra("from", "detail");
+                        i.putExtra("id", mDataSet.get(position).getId());
+                        i.putExtra("user", mDataSet.get(position));
+
+                        startActivity(i);
+
+                    }
+
 
                 }
             });
