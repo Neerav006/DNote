@@ -96,14 +96,18 @@
         <activity
                 android:name=".view.SummaryReportActivity"
                 android:label="@string/title_activity_summary_report"
-                android:theme="@style/AppTheme.NoActionBar"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+                android:name=".view.ChooseReportTypeActivity"
+                android:label="Select report type"
                 android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.ChooseReportTypeActivity"
-                  android:label="Select report type"
+        <activity android:name=".view.ProductReportActivity"
+                  android:label="Product Report"
                   android:screenOrientation="portrait">
         </activity>
-
     </application>
 
 </manifest>

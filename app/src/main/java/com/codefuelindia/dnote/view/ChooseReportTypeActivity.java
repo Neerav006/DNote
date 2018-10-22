@@ -34,13 +34,17 @@ public class ChooseReportTypeActivity extends AppCompatActivity {
                 intent.putExtra("from", "detail");
                 startActivity(intent);
 
-
             }
         });
 
         card_productReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent intent = new Intent(ChooseReportTypeActivity.this, ManageCustomersActivity.class);
+                intent.putExtra("flag", "100");
+                startActivity(intent);
+
 
             }
         });

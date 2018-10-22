@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".view.ProductReportActivity">
+
+    <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/productReport_tv_name"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:text="NAME"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/productReport_tv_number"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:text="Number"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/productReport_tv_address"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:text="Address"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/productReport_tv_city"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:text="City"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <View
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/raisinBlack"/>
+
+    <LinearLayout
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:textColor="@color/mainColorAccent_red"
+                android:layout_width="wrap_content"
+                android:text="Remaining Amount :  "
+                android:textSize="16dp"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/productReport_tv_remainAmt"
+                android:textSize="16dp"
+                android:textColor="@color/mainColorAccent_red"
+                android:layout_width="wrap_content"
+                android:text="XXXX /-"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/productReport_tv_recViewTitle"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:padding="5dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/bg_softGrey"
+            android:textColor="@color/raisinBlack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Transaction List"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/productReport_tv_noTrans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_centerInParent="true"
+                android:text="No Transactions"
+                android:visibility="gone"/>
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/productReport_recView_transactions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        <ProgressBar
+                android:id="@+id/productReport_progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
