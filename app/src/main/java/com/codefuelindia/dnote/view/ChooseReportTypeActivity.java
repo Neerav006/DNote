@@ -1,8 +1,10 @@
 package com.codefuelindia.dnote.view;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import com.codefuelindia.dnote.R;
@@ -16,9 +18,12 @@ public class ChooseReportTypeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_report_type);
 
-        ll_detailReport = findViewById(R.id.chooseReport_tv_detailsReport);
-        ll_productReport = findViewById(R.id.chooseReport_tv_productReport);
-        ll_summaryReport = findViewById(R.id.chooseReport_tv_summaryReport);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        ll_detailReport = findViewById(R.id.chooseReport_card_detailsReport);
+        ll_productReport = findViewById(R.id.chooseReport_card_productReport);
+        ll_summaryReport = findViewById(R.id.chooseReport_card_summaryReport);
 
 
         ll_detailReport.setOnClickListener(new View.OnClickListener() {
@@ -44,11 +49,21 @@ public class ChooseReportTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(ChooseReportTypeActivity.this,SummaryReportActivity.class));
+                startActivity(new Intent(ChooseReportTypeActivity.this, SummaryReportActivity.class));
 
             }
         });
 
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

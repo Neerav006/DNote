@@ -225,9 +225,22 @@
                 android:layout_marginTop="40dp"
                 android:fitsSystemWindows="true"/>
 
+        <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/dash_tv_address"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textStyle="bold"
+                android:text="F1, Ashwamegh City Center, Opp. Medical College,\nPolytechnic - Gadhoda road, Himmatnagar -383001"/>
+
+
         <LinearLayout
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="12dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_width="match_parent"
@@ -235,14 +248,15 @@
                 android:weightSum="2">
 
             <TextView
-                    android:id="@+id/dash_tv_address"
+                    android:textStyle="bold"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:text="F1, Ashwamegh City Center,\nOpp. Medical College,\nPolytechnic - Gadhoda road,\nHimmatnagar -383001"/>
+                    android:text="+91 94277 45635"/>
 
             <TextView
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:layout_weight="1"
                     android:layout_width="match_parent"

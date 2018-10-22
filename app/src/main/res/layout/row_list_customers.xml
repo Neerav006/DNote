@@ -13,7 +13,7 @@
             android:id="@+id/row_customerList_tv_index"
             android:layout_width="0dp"
             android:text="01"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:layout_height="wrap_content"/>
 
     <LinearLayout
@@ -28,7 +28,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NAME"
-                android:textSize="15sp"/>
+                android:textStyle="bold"
+                android:textSize="17sp"/>
 
         <TextView
                 android:id="@+id/row_customerList_tv_number"
@@ -67,7 +68,7 @@
                 android:text="AMOUNT"
                 android:padding="5dp"
                 android:gravity="center"
-                android:textSize="15sp"/>
+                android:textSize="17sp"/>
 
     </LinearLayout>
 
