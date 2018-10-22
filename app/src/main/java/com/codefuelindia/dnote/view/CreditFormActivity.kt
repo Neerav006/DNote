@@ -66,7 +66,7 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
 
         if (EasyPermissions.hasPermissions(this, *perms)) {
 
-            generateReportPdf("TCS", "9558521007", "Gandhinagar")
+            generateReportPdf(sessionManager.userName, sessionManager.mobile, sessionManager.addr)
 
         } else {
             EasyPermissions.requestPermissions(
@@ -91,12 +91,29 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
     private lateinit var credit: AddCredit
     private val PDF_DIRECTORY = "/Dnote"
     private val FILE_NAME = "report"
+    private var from: String? = null
+    private var userIdfrom: String? = null
+    private var fromUser: User? = null
+
+    private lateinit var sessionManager: SessionManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_credit_form)
         setSupportActionBar(toolbar)
+
+        sessionManager = SessionManager(this@CreditFormActivity)
+
+
+        if (intent != null) {
+            from = intent.getStringExtra("from")
+            userIdfrom = intent.getStringExtra("id")
+            fromUser = intent.getParcelableExtra("user")
+
+
+        }
+
 
         credit = RetrofitClient.getClient(MyConstants.BASE_URL).create(AddCredit::class.java)
 
@@ -124,6 +141,9 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
         )
 
 
+
+
+
         edtAdress.setOnTouchListener { v, event ->
 
             if (edtAdress.hasFocus()) {
@@ -140,6 +160,100 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
 
 
             return@setOnTouchListener false
+        }
+
+
+        if (userIdfrom != null && fromUser != null) {
+
+            autoCustomerName.setText(fromUser?.name)
+            autoCustomerMobile.setText(fromUser?.mobile)
+            edtAdress.setText(fromUser?.address)
+            edtCity.setText(fromUser?.city)
+
+
+
+            progressBar.visibility = View.VISIBLE
+
+            creditHistory.getCreditHistory(userIdfrom!!).enqueue(object : Callback<List<History>> {
+                override fun onFailure(call: Call<List<History>>, t: Throwable) {
+                    progressBar.visibility = View.GONE
+                    creditList.clear()
+                    showCreditDebitTotal()
+
+                }
+
+                override fun onResponse(call: Call<List<History>>, response: Response<List<History>>) {
+                    progressBar.visibility = View.GONE
+
+                    if (response.isSuccessful) {
+
+                        creditList = response.body() as ArrayList<History>
+                        if (creditList.size > 0) {
+
+                            rvCreditList.adapter = CreditListAdapter(creditList)
+                            showCreditDebitTotal()
+
+
+                        } else {
+                            creditList.clear()
+                            rvCreditList.adapter = CreditListAdapter(ArrayList())
+                            showCreditDebitTotal()
+                        }
+
+
+                    } else {
+                        creditList.clear()
+                        showCreditDebitTotal()
+
+                    }
+
+
+                }
+
+
+            })
+            progressBar.visibility = View.VISIBLE
+
+            creditHistory.getDebittHistory(userIdfrom!!).enqueue(object : Callback<List<History>> {
+                override fun onFailure(call: Call<List<History>>, t: Throwable) {
+                    progressBar.visibility = View.GONE
+                    debitList.clear()
+                    showCreditDebitTotal()
+
+
+                }
+
+                override fun onResponse(call: Call<List<History>>, response: Response<List<History>>) {
+                    progressBar.visibility = View.GONE
+
+                    if (response.isSuccessful) {
+
+                        debitList = response.body() as ArrayList<History>
+                        if (debitList.size > 0) {
+                            rvDebitList.adapter = DebitListAdapter(debitList)
+                            showCreditDebitTotal()
+
+
+                        } else {
+                            rvDebitList.adapter = CreditListAdapter(ArrayList())
+                            debitList.clear()
+                            showCreditDebitTotal()
+
+                        }
+
+
+                    } else {
+
+
+                    }
+
+
+                }
+
+
+            })
+
+
         }
 
 
@@ -412,7 +526,12 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
 
         tvTotalDebit.text = "Total: ".plus(sumDebit.toString())
         tvTotalCredit.text = "Total: ".plus(sumCredit.toString())
-        tvTotalAmountCredit.text = "Remaining Amount: ".plus(selectedUser?.remainingPayment)
+
+        if (fromUser != null) {
+            tvTotalAmountCredit.text = "Remaining Amount: ".plus(fromUser?.remainingPayment)
+        } else {
+            tvTotalAmountCredit.text = "Remaining Amount: ".plus(selectedUser?.remainingPayment)
+        }
 
 
     }
@@ -514,6 +633,10 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
 
         menuInflater.inflate(R.menu.menu_pay, menu)
 
+        val menuItem = menu?.findItem(R.id.action_menu_pay)
+
+        menuItem?.isVisible = !(from != null && from == "detail")
+
 
         return super.onCreateOptionsMenu(menu)
     }
@@ -533,7 +656,7 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
             return true
         } else if (item.itemId == R.id.action_menu_share) {
 
-            if (selectedUser != null) {
+            if (selectedUser != null || fromUser != null) {
 
                 requestWriteExternalPermission()
 
@@ -876,7 +999,7 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                         )
 
 
-                    }else {
+                    } else {
 
                         rsCreditTable.addCell(
                             Phrase(
@@ -991,6 +1114,21 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
 
                 document.add(totalCreditDebit)
 
+
+                val remainingTable = PdfPTable(1)
+                remainingTable.setWidths(intArrayOf(1))
+                remainingTable.spacingBefore = 20f
+
+                remainingTable.addCell(
+                    Phrase(
+                        lineSpacing, "Total Remaining:  ".plus((sumDebit - sumCredit).toString()),
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+
+
+                document.add(remainingTable)
 
                 document.close()
 

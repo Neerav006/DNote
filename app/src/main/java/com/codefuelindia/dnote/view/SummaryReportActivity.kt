@@ -44,7 +44,7 @@ class SummaryReportActivity : AppCompatActivity() {
 
     private val PDF_DIRECTORY = "/Dnote"
     private val FILE_NAME = "summary"
-
+    private var from: String? = null
     private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +56,24 @@ class SummaryReportActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        toolbar?.title = "Summary"
+
+        if (intent != null) {
+
+            from = intent.getStringExtra("from")
+
+        }
+
+
+        if (from != null) {
+            toolbar?.title = "Detail"
+            llFilterByAmount.visibility = View.GONE
+
+        } else {
+            toolbar?.title = "Summary"
+            llFilterByAmount.visibility = View.VISIBLE
+        }
+
+
 
 
         toolbar?.setNavigationOnClickListener {
@@ -121,7 +138,6 @@ class SummaryReportActivity : AppCompatActivity() {
 //
 //                            }
 //                        }
-
 
 
                         rvList.adapter = UserListAdapter(userList)
@@ -199,7 +215,21 @@ class SummaryReportActivity : AppCompatActivity() {
 
             init {
                 // Define click listener for the ViewHolder's View.
-                v.setOnClickListener { }
+                v.setOnClickListener {
+
+                    if (from != null && from == "detail") {
+
+                        val intent = Intent(this@SummaryReportActivity, CreditFormActivity::class.java)
+                        intent.putExtra("from", "detail")
+                        intent.putExtra("id",dataSet[adapterPosition].id)
+                        intent.putExtra("user",dataSet[adapterPosition])
+                        startActivity(intent)
+
+
+                    }
+
+
+                }
                 tvName = v.findViewById(R.id.tvName)
                 tvCity = v.findViewById(R.id.tvCity)
                 tvMobile = v.findViewById(R.id.tvMobile)

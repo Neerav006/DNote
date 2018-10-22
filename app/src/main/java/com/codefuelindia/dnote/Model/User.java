@@ -1,9 +1,11 @@
 package com.codefuelindia.dnote.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class User implements Parcelable {
 
 @SerializedName("id")
 @Expose
@@ -148,4 +150,54 @@ public void setRole(String role) {
 this.role = role;
 }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.dateTime);
+        dest.writeString(this.name);
+        dest.writeString(this.mobile);
+        dest.writeString(this.password);
+        dest.writeString(this.address);
+        dest.writeString(this.city);
+        dest.writeString(this.totalPayment);
+        dest.writeString(this.collectedPayment);
+        dest.writeString(this.remainingPayment);
+        dest.writeString(this.status);
+        dest.writeString(this.role);
+    }
+
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        this.id = in.readString();
+        this.dateTime = in.readString();
+        this.name = in.readString();
+        this.mobile = in.readString();
+        this.password = in.readString();
+        this.address = in.readString();
+        this.city = in.readString();
+        this.totalPayment = in.readString();
+        this.collectedPayment = in.readString();
+        this.remainingPayment = in.readString();
+        this.status = in.readString();
+        this.role = in.readString();
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }
