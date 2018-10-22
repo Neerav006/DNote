@@ -1127,8 +1127,39 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 )
 
 
+                val footer1 = PdfPTable(1)
+                footer1.widthPercentage = 100f
+                footer1.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
+                footer1.defaultCell.paddingTop = 5f
+                footer1.defaultCell.paddingBottom = 5f
+
+                footer1.addCell(
+                    Phrase(
+                        lineSpacing, "Design & Developed By Codefuel Technology Pvt. Ltd. ",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
+
+                val footer2 = PdfPTable(1)
+                footer2.widthPercentage = 100f
+                footer2.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
+                footer2.defaultCell.paddingTop = 5f
+                footer2.defaultCell.paddingBottom = 5f
+
+                footer2.addCell(
+                    Phrase(
+                        lineSpacing, "Mobile :- 9427745635 E-Mail :- info@codefuelindia.com\n" +
+                                "F-1, Ashwamegh City Center, Opp. Medical College, Polytechnic-Gadhoda Road, Motipura, Himmatnagar, Gujarat\n" +
+                                "383001",
+                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    )
+                )
+
 
                 document.add(remainingTable)
+                document.add(footer1)
+                document.add(footer2)
 
                 document.close()
 
