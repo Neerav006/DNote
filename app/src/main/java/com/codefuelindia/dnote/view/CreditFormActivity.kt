@@ -878,32 +878,64 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 customerDetail.defaultCell.paddingTop = 5f
                 customerDetail.defaultCell.paddingBottom = 5f
 
-                customerDetail.addCell(
-                    Phrase(
-                        lineSpacing, selectedUser?.name,
-                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                if (selectedUser != null) {
+                    customerDetail.addCell(
+                        Phrase(
+                            lineSpacing, selectedUser?.name,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
                     )
-                )
 
-                customerDetail.addCell(
-                    Phrase(
-                        lineSpacing, selectedUser?.mobile,
-                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    customerDetail.addCell(
+                        Phrase(
+                            lineSpacing, selectedUser?.mobile,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
                     )
-                )
 
-                customerDetail.addCell(
-                    Phrase(
-                        lineSpacing, selectedUser?.address,
-                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    customerDetail.addCell(
+                        Phrase(
+                            lineSpacing, selectedUser?.address,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
                     )
-                )
-                customerDetail.addCell(
-                    Phrase(
-                        lineSpacing, selectedUser?.city,
-                        FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                    customerDetail.addCell(
+                        Phrase(
+                            lineSpacing, selectedUser?.city,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
                     )
-                )
+                } else if (fromUser != null) {
+
+                    customerDetail.addCell(
+                        Phrase(
+                            lineSpacing, fromUser?.name,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
+                    )
+
+                    customerDetail.addCell(
+                        Phrase(
+                            lineSpacing, fromUser?.mobile,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
+                    )
+
+                    customerDetail.addCell(
+                        Phrase(
+                            lineSpacing, fromUser?.address,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
+                    )
+                    customerDetail.addCell(
+                        Phrase(
+                            lineSpacing, fromUser?.city,
+                            FontFactory.getFont(FontFactory.TIMES_BOLD, 10f)
+                        )
+                    )
+
+                }
+
 
                 val debitHeader = PdfPTable(2)
                 debitHeader.widthPercentage = 100f
