@@ -825,6 +825,7 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 lineSpacing = 30f
 
                 val tableCompanyHeader = PdfPTable(3)
+                tableCompanyHeader.widthPercentage = 100f
                 tableCompanyHeader.spacingBefore = 30f
                 tableCompanyHeader.setWidths(intArrayOf(2, 1, 2))
                 tableCompanyHeader.horizontalAlignment = Element.ALIGN_CENTER
@@ -856,7 +857,7 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 )
 
                 val reportHeader = PdfPTable(1)
-
+                reportHeader.widthPercentage = 100f
                 reportHeader.spacingBefore = 30f
                 reportHeader.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
                 reportHeader.defaultCell.paddingTop = 5f
@@ -870,6 +871,7 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
 
 
                 val customerDetail = PdfPTable(4)
+                customerDetail.widthPercentage = 100f
                 customerDetail.setWidths(intArrayOf(1, 1, 1, 1))
                 customerDetail.horizontalAlignment = Element.ALIGN_CENTER
                 customerDetail.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
@@ -904,6 +906,7 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 )
 
                 val debitHeader = PdfPTable(2)
+                debitHeader.widthPercentage = 100f
                 debitHeader.setWidths(intArrayOf(1, 1))
                 debitHeader.horizontalAlignment = Element.ALIGN_CENTER
                 debitHeader.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
@@ -927,6 +930,7 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
 
 
                 val historyHeader = PdfPTable(4)
+                historyHeader.widthPercentage = 100f
                 historyHeader.setWidths(intArrayOf(1, 1, 1, 1))
                 historyHeader.horizontalAlignment = Element.ALIGN_CENTER
                 historyHeader.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
@@ -979,6 +983,7 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 for (i in 0 until count) {
 
                     val rsCreditTable = PdfPTable(4)
+                    rsCreditTable.widthPercentage = 100f
                     rsCreditTable.setWidths(intArrayOf(1, 1, 1, 1))
 
                     if (i < creditList.size) {
@@ -1080,6 +1085,7 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 }
 
                 val totalCreditDebit = PdfPTable(4)
+                totalCreditDebit.widthPercentage = 100f
                 totalCreditDebit.setWidths(intArrayOf(1, 1, 1, 1))
 
                 totalCreditDebit.addCell(
@@ -1116,6 +1122,9 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
 
 
                 val remainingTable = PdfPTable(1)
+                remainingTable.defaultCell.paddingTop = 5f
+                remainingTable.defaultCell.paddingBottom = 5f
+                remainingTable.widthPercentage = 100f
                 remainingTable.setWidths(intArrayOf(1))
                 remainingTable.spacingBefore = 20f
 

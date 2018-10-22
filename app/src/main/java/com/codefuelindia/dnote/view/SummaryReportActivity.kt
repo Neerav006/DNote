@@ -166,6 +166,10 @@ class SummaryReportActivity : AppCompatActivity() {
 
         menuInflater.inflate(R.menu.menu_pdf_report_view, menu)
 
+        val menuItem = menu?.findItem(R.id.action_menu_pdf_view)
+
+        menuItem?.isVisible = from == null
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -221,8 +225,8 @@ class SummaryReportActivity : AppCompatActivity() {
 
                         val intent = Intent(this@SummaryReportActivity, CreditFormActivity::class.java)
                         intent.putExtra("from", "detail")
-                        intent.putExtra("id",dataSet[adapterPosition].id)
-                        intent.putExtra("user",dataSet[adapterPosition])
+                        intent.putExtra("id", dataSet[adapterPosition].id)
+                        intent.putExtra("user", dataSet[adapterPosition])
                         startActivity(intent)
 
 
