@@ -28,14 +28,23 @@
             <LinearLayout
                     android:padding="10dp"
                     android:layout_weight="1"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center">
 
+                <ImageView
+                        android:layout_width="75dp"
+                        android:layout_height="70dp"
+                        android:padding="5dp"
+                        android:src="@drawable/dash_menu_reports"
+                        android:background="@color/colorPrimary"/>
+
                 <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:layout_marginTop="3dp"
                         android:text="Detail\nReport"
                         android:textColor="@color/raisinBlack"
                         android:textSize="20sp"/>
@@ -58,13 +67,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:orientation="vertical"
                     android:padding="10dp">
 
+                <ImageView
+                        android:layout_width="75dp"
+                        android:layout_height="70dp"
+                        android:padding="5dp"
+                        android:src="@drawable/dash_menu_reports"
+                        android:background="@color/colorPrimary"/>
+
+
                 <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Product Detail Report"
+                        android:layout_marginTop="3dp"
+                        android:text="Product Report"
                         android:textColor="@color/raisinBlack"
                         android:textSize="20sp"/>
 
@@ -94,13 +113,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:orientation="vertical"
                     android:padding="10dp">
 
+                <ImageView
+                        android:layout_width="75dp"
+                        android:layout_height="70dp"
+                        android:padding="5dp"
+                        android:src="@drawable/dash_menu_reports"
+                        android:background="@color/colorPrimary"/>
+
+
                 <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Summary Report"
+                        android:layout_marginTop="3dp"
                         android:textColor="@color/raisinBlack"
                         android:textSize="20sp"/>
 
