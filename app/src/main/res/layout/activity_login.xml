@@ -8,25 +8,14 @@
         android:layout_height="match_parent"
         tools:context=".view.LoginActivity">
 
-    <!--<ImageView
-            android:layout_width="150dp"
-            android:layout_height="100dp"
+    <ImageView
+            android:layout_width="200dp"
+            android:layout_height="120dp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:src="@drawable/logoo"
+            android:layout_gravity="center"
+            android:src="@drawable/logo"
             android:textColor="@color/white"
-            android:textSize="25sp"
-            android:textStyle="bold" />-->
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:padding="25dp"
-            android:gravity="center"
-            android:text="D Note"
-            android:textColor="@color/colorPrimary"
             android:textSize="25sp"
             android:textStyle="bold"/>
 
