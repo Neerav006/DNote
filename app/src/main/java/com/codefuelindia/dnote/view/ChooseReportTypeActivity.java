@@ -30,8 +30,8 @@ public class ChooseReportTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(ChooseReportTypeActivity.this,SummaryReportActivity.class);
-                intent.putExtra("from","detail");
+                Intent intent = new Intent(ChooseReportTypeActivity.this, SummaryReportActivity.class);
+                intent.putExtra("from", "detail");
                 startActivity(intent);
 
 
