@@ -50,6 +50,14 @@ public class ManageProductsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.manageProducts_toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         recyclerView_productList = findViewById(R.id.manageProducts_recView);
         textView_noproducts = findViewById(R.id.manageProducts_tv_noProducts);
         progressBar = findViewById(R.id.manageProducts_progressBar);
