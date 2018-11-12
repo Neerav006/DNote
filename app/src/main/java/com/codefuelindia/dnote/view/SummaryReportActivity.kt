@@ -232,7 +232,8 @@ class SummaryReportActivity : AppCompatActivity() {
         } else if (item!!.itemId == R.id.action_menu_pdf_refresh) {
 
 
-            rvList.adapter = UserListAdapter(userList)
+            userListAdapter = UserListAdapter(userList)
+            rvList.adapter = userListAdapter
             edtStartAmount.text!!.clear()
             edtEndAmount.text!!.clear()
 
