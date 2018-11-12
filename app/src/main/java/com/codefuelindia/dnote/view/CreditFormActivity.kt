@@ -142,8 +142,6 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
 
 
 
-
-
         edtAdress.setOnTouchListener { v, event ->
 
             if (edtAdress.hasFocus()) {

@@ -1,6 +1,8 @@
 package com.codefuelindia.dnote.view
 
 import android.Manifest
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -12,9 +14,12 @@ import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import android.widget.Toast
 import com.codefuelindia.dnote.Common.RetrofitClient
@@ -46,6 +51,8 @@ class SummaryReportActivity : AppCompatActivity() {
     private val FILE_NAME = "summary"
     private var from: String? = null
     private lateinit var sessionManager: SessionManager
+    private var searchView: SearchView? = null
+    private lateinit var userListAdapter: UserListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +84,12 @@ class SummaryReportActivity : AppCompatActivity() {
 
 
         toolbar?.setNavigationOnClickListener {
+
+            if (!searchView!!.isIconified) {
+                searchView!!.isIconified = true
+                return@setNavigationOnClickListener
+            }
+
             finish()
         }
 
@@ -101,11 +114,12 @@ class SummaryReportActivity : AppCompatActivity() {
 
                 if (filteredList.isNotEmpty()) {
 
-                    rvList.adapter = UserListAdapter(filteredList as ArrayList<User>)
-
+                    userListAdapter = UserListAdapter(filteredList as ArrayList<User>)
+                    rvList.adapter = userListAdapter
 
                 } else {
-                    rvList.adapter = UserListAdapter(ArrayList())
+                    userListAdapter = UserListAdapter(ArrayList())
+                    rvList.adapter = userListAdapter
                     MyConstants.showToast(this@SummaryReportActivity, "No record found")
                 }
 
@@ -120,7 +134,8 @@ class SummaryReportActivity : AppCompatActivity() {
         getUserList.getUserList().enqueue(object : Callback<List<User>> {
             override fun onFailure(call: Call<List<User>>, t: Throwable) {
                 progressBar.visibility = View.GONE
-                rvList.adapter = UserListAdapter(ArrayList())
+                userListAdapter = UserListAdapter(ArrayList())
+                rvList.adapter = userListAdapter
                 MyConstants.showToast(this@SummaryReportActivity, "Internal server error")
             }
 
@@ -140,16 +155,21 @@ class SummaryReportActivity : AppCompatActivity() {
 //                        }
 
 
-                        rvList.adapter = UserListAdapter(userList)
+                        userListAdapter = UserListAdapter(userList)
+                        rvList.adapter = userListAdapter
 
                     } else {
-                        rvList.adapter = UserListAdapter(ArrayList())
+
+
+                        userListAdapter = UserListAdapter(ArrayList())
+                        rvList.adapter = userListAdapter
                         MyConstants.showToast(this@SummaryReportActivity, "No record found")
                     }
 
 
                 } else {
-                    rvList.adapter = UserListAdapter(ArrayList())
+                    userListAdapter = UserListAdapter(ArrayList())
+                    rvList.adapter = userListAdapter
                     MyConstants.showToast(this@SummaryReportActivity, "Internal server error")
 
                 }
@@ -169,6 +189,32 @@ class SummaryReportActivity : AppCompatActivity() {
         val menuItem = menu?.findItem(R.id.action_menu_pdf_view)
 
         menuItem?.isVisible = from == null
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+
+        searchView = (menu?.findItem(R.id.action_search)!!.actionView as SearchView)
+
+        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+
+
+                return false
+
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+
+                if (userList.isNotEmpty()) {
+
+                    userListAdapter.filter.filter(p0!!.trim().toLowerCase())
+
+                }
+
+                return false
+            }
+
+        }
+        )
+
 
         return super.onCreateOptionsMenu(menu)
     }
@@ -204,7 +250,69 @@ class SummaryReportActivity : AppCompatActivity() {
     // ------------------------------------ adapter-----------------------------------------------
 
     inner class UserListAdapter(private val dataSet: ArrayList<User>) :
-        RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
+        RecyclerView.Adapter<UserListAdapter.ViewHolder>(), Filterable {
+
+        var filteredUserList: ArrayList<User> = ArrayList()
+        var originalUserList: ArrayList<User> = ArrayList()
+
+        init {
+
+            filteredUserList = dataSet
+            originalUserList = dataSet
+
+        }
+
+
+        override fun getFilter(): Filter {
+
+            return object : Filter() {
+                override fun performFiltering(constraint: CharSequence?): FilterResults {
+
+                    val charString = constraint.toString()
+
+                    if (charString.trim().isEmpty()) {
+
+                        filteredUserList = dataSet
+
+                    } else {
+                        val filterUserLocal: ArrayList<User> = ArrayList()
+
+
+                        for (items in dataSet) {
+
+                            if (items.name.contains(charString) || items.mobile.contains(charString)) {
+
+                                filterUserLocal.add(items)
+                            }
+
+
+                        }
+
+                        filteredUserList = filterUserLocal
+
+                    }
+
+                    val filterResults = FilterResults()
+                    filterResults.values = filteredUserList
+                    return filterResults
+
+
+                }
+
+
+                override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+
+                    filteredUserList = results!!.values as ArrayList<User>
+                    notifyDataSetChanged()
+
+
+                }
+
+
+            }
+
+
+        }
 
         /**
          * Provide a reference to the type of views that you are using (custom ViewHolder)
@@ -225,8 +333,8 @@ class SummaryReportActivity : AppCompatActivity() {
 
                         val intent = Intent(this@SummaryReportActivity, CreditFormActivity::class.java)
                         intent.putExtra("from", "detail")
-                        intent.putExtra("id", dataSet[adapterPosition].id)
-                        intent.putExtra("user", dataSet[adapterPosition])
+                        intent.putExtra("id", filteredUserList[adapterPosition].id)
+                        intent.putExtra("user", filteredUserList[adapterPosition])
                         startActivity(intent)
 
 
@@ -258,22 +366,22 @@ class SummaryReportActivity : AppCompatActivity() {
             // Get element from your dataset at this position and replace the contents of the view
             // with that element
 
-            viewHolder.tvName.text = dataSet[position].name
-            viewHolder.tvCity.text = dataSet[position].city
-            viewHolder.tvMobile.text = dataSet[position].mobile
-            viewHolder.tvCredit.text = "Credit: ".plus(dataSet[position].collectedPayment)
-            viewHolder.tvDebit.text = "Debit; ".plus(dataSet[position].totalPayment)
-            viewHolder.tvTotalCrdr.text = "Rem: ".plus(dataSet[position].remainingPayment)
+            viewHolder.tvName.text = filteredUserList[position].name
+            viewHolder.tvCity.text = filteredUserList[position].city
+            viewHolder.tvMobile.text = filteredUserList[position].mobile
+            viewHolder.tvCredit.text = "Credit: ".plus(filteredUserList[position].collectedPayment)
+            viewHolder.tvDebit.text = "Debit; ".plus(filteredUserList[position].totalPayment)
+            viewHolder.tvTotalCrdr.text = "Rem: ".plus(filteredUserList[position].remainingPayment)
 
 
         }
 
         // Return the size of your dataset (invoked by the layout manager)
-        override fun getItemCount() = dataSet.size
+        override fun getItemCount() = filteredUserList.size
 
 
         fun getDataSet(): ArrayList<User> {
-            return dataSet
+            return filteredUserList
         }
 
     }
@@ -629,6 +737,15 @@ class SummaryReportActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    override fun onBackPressed() {
+        // close search view on back button pressed
+        if (!searchView!!.isIconified) {
+            searchView!!.isIconified = true
+            return
+        }
+        super.onBackPressed()
     }
 
 
