@@ -45,9 +45,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         sessionManager = new SessionManager(this);
         checkSubscription = RetrofitClient.getClient(BASE_URL).create(CheckSubscription.class);
-
-        button_login.setEnabled(false);
-
         tvNoInternet = findViewById(R.id.tvNoInterNet);
         tvServerError = findViewById(R.id.tvServerError);
 
@@ -65,15 +62,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             checkSubscription.checkLicence(sessionManager.getKeyUId()).enqueue(new Callback<ResCommon>() {
                 @Override
                 public void onResponse(Call<ResCommon> call, Response<ResCommon> response) {
-
+                    if (progressDialog.isShowing() && LoginActivity.this != null) {
+                        progressDialog.dismiss();
+                    }
                     if (response.isSuccessful()) {
 
-                        if (response.body().getMsg().equalsIgnoreCase("true")) {
+                        if (response.body().getMsg().equalsIgnoreCase("2x")) {
                             // ok valid subscription
-
-                            if (progressDialog.isShowing() && LoginActivity.this!=null){
-                                progressDialog.dismiss();
-                            }
 
 
                             Intent i = new Intent(LoginActivity.this, DashNavigationActivity.class);
@@ -88,7 +83,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             finish();
 
 
-
                         } else {
                             // not ok expired..
                             Toast.makeText(LoginActivity.this, "Your subscription is expired.Please contact admin", Toast.LENGTH_LONG).show();
@@ -97,6 +91,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                     } else {
+
                         // some internal server error
                         Toast.makeText(LoginActivity.this, "Internal Server error, Try again", Toast.LENGTH_LONG).show();
 
@@ -108,16 +103,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onFailure(Call<ResCommon> call, Throwable t) {
                     // some server error
-                    if (progressDialog.isShowing() && LoginActivity.this!=null){
+                    if (progressDialog.isShowing() && LoginActivity.this != null) {
                         progressDialog.dismiss();
                     }
                     Toast.makeText(LoginActivity.this, "Internal Server error,Try again", Toast.LENGTH_LONG).show();
 
                 }
             });
-
-
-
 
 
         }
@@ -213,6 +205,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     Toast.makeText(getApplicationContext(), "You are not a registered user", Toast.LENGTH_SHORT).show();
                                     break;
 
+                                case "2x":
+                                    // valid subscription
+
+                                    String name1, number1, u_id1, addr1, mobile1;
+                                    name1 = response.body().getName();
+                                    number1 = response.body().getNumber();
+                                    u_id1 = response.body().getU_id();
+                                    addr1 = response.body().getAddress();
+                                    mobile1 = response.body().getMobile();
+
+                                    finish();
+                                    sessionManager.createLoginSession(name1, number1, u_id1, mobile1, addr1);
+
+                                    Intent i1 = new Intent(LoginActivity.this, DashNavigationActivity.class);
+                                    i1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    i1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(i1);
+
+                                    break;
+
+                                case "1x":
+                                    // expired
+                                    Toast.makeText(getApplicationContext(), "Your subscription Expired..Contact Admin", Toast.LENGTH_SHORT).show();
+
+
+                                    break;
+
+
                                 default:
                                     Toast.makeText(getApplicationContext(), "Some error occurred while signing you up \nPlease try after sometime", Toast.LENGTH_SHORT).show();
                                     break;
@@ -282,11 +302,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     interface CheckSubscription {
-        @POST("")
+        @POST("checkvalidityapi")
         @FormUrlEncoded
         Call<ResCommon> checkLicence(@Field("id") String id);
     }
-
 
 
 }
