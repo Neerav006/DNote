@@ -154,6 +154,10 @@ class ProductReportActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
         menuInflater.inflate(R.menu.menu_pdf_report_view, menu)
+        val menuSearch = menu?.findItem(R.id.action_search)
+        menuSearch.isVisible = false
+        val menuRefresh = menu.findItem(R.id.action_menu_pdf_refresh)
+        menuRefresh.isVisible = false
 
 
         return super.onCreateOptionsMenu(menu)
