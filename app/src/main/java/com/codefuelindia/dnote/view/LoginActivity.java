@@ -27,14 +27,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private static final String BASE_URL = "http://code-fuel.in/dnote/api/";
     LoginAPI loginAPI;
-
     SessionManager sessionManager;
-
     EditText editText_number, editText_password;
     Button button_login;
     TextView textView_forget_pwd;
-
     String number, password;
+    private CheckSubscription checkSubscription;
+    private TextView tvServerError;
+    private TextView tvNoInternet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +44,82 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginAPI = getLoginAPIService(BASE_URL);
 
         sessionManager = new SessionManager(this);
+        checkSubscription = RetrofitClient.getClient(BASE_URL).create(CheckSubscription.class);
+
+        button_login.setEnabled(false);
+
+        tvNoInternet = findViewById(R.id.tvNoInterNet);
+        tvServerError = findViewById(R.id.tvServerError);
+
 
         if (sessionManager.checkLogin()) {
-            Intent i = new Intent(this, DashNavigationActivity.class);
 
-            // Closing all the Activities
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //---------------------- verify subscription --------------------//
 
-            // Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Verifying User.....");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
 
-            startActivity(i);
-            finish();
+
+            checkSubscription.checkLicence(sessionManager.getKeyUId()).enqueue(new Callback<ResCommon>() {
+                @Override
+                public void onResponse(Call<ResCommon> call, Response<ResCommon> response) {
+
+                    if (response.isSuccessful()) {
+
+                        if (response.body().getMsg().equalsIgnoreCase("true")) {
+                            // ok valid subscription
+
+                            if (progressDialog.isShowing() && LoginActivity.this!=null){
+                                progressDialog.dismiss();
+                            }
+
+
+                            Intent i = new Intent(LoginActivity.this, DashNavigationActivity.class);
+
+                            // Closing all the Activities
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                            // Add new Flag to start new Activity
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                            startActivity(i);
+                            finish();
+
+
+
+                        } else {
+                            // not ok expired..
+                            Toast.makeText(LoginActivity.this, "Your subscription is expired.Please contact admin", Toast.LENGTH_LONG).show();
+
+                        }
+
+
+                    } else {
+                        // some internal server error
+                        Toast.makeText(LoginActivity.this, "Internal Server error, Try again", Toast.LENGTH_LONG).show();
+
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<ResCommon> call, Throwable t) {
+                    // some server error
+                    if (progressDialog.isShowing() && LoginActivity.this!=null){
+                        progressDialog.dismiss();
+                    }
+                    Toast.makeText(LoginActivity.this, "Internal Server error,Try again", Toast.LENGTH_LONG).show();
+
+                }
+            });
+
+
+
+
+
         }
 
         editText_number = findViewById(R.id.login_et_number);
@@ -85,7 +149,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
-
 
 
     private void method_login() {
@@ -130,7 +193,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             switch (response.body().getMsg()) {
 
                                 case "true":
-                                    String name, number, u_id,addr,mobile;
+                                    String name, number, u_id, addr, mobile;
                                     name = response.body().getName();
                                     number = response.body().getNumber();
                                     u_id = response.body().getU_id();
@@ -138,7 +201,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     mobile = response.body().getMobile();
 
                                     finish();
-                                    sessionManager.createLoginSession(name, number, u_id,mobile,addr);
+                                    sessionManager.createLoginSession(name, number, u_id, mobile, addr);
 
                                     Intent i = new Intent(LoginActivity.this, DashNavigationActivity.class);
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -217,5 +280,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                    @Field("pass") String pass
         );
     }
+
+    interface CheckSubscription {
+        @POST("")
+        @FormUrlEncoded
+        Call<ResCommon> checkLicence(@Field("id") String id);
+    }
+
+
 
 }
