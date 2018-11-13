@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,8 +59,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
+            final String uid = sessionManager.getKeyUId();
 
-            checkSubscription.checkLicence(sessionManager.getKeyUId()).enqueue(new Callback<ResCommon>() {
+            checkSubscription.checkLicence(uid).enqueue(new Callback<ResCommon>() {
                 @Override
                 public void onResponse(Call<ResCommon> call, Response<ResCommon> response) {
                     if (progressDialog.isShowing() && LoginActivity.this != null) {
@@ -188,7 +190,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     String name, number, u_id, addr, mobile;
                                     name = response.body().getName();
                                     number = response.body().getNumber();
-                                    u_id = response.body().getU_id();
+                                    u_id = response.body().getId();
                                     addr = response.body().getAddress();
                                     mobile = response.body().getMobile();
 
@@ -211,7 +213,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     String name1, number1, u_id1, addr1, mobile1;
                                     name1 = response.body().getName();
                                     number1 = response.body().getNumber();
-                                    u_id1 = response.body().getU_id();
+                                    u_id1 = response.body().getId();
                                     addr1 = response.body().getAddress();
                                     mobile1 = response.body().getMobile();
 
