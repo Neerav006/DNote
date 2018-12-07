@@ -22,10 +22,8 @@ public class DashNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     SessionManager sessionManager;
-
-    private NavigationView navigationView;
-
     FragmentTransaction ft;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +72,7 @@ public class DashNavigationActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_changePwd) {
             Intent i = new Intent(DashNavigationActivity.this, ChangePwdActivity.class);
+            i.putExtra("u_id", sessionManager.getKeyUId());
             startActivity(i);
             navigationView.getMenu().getItem(0).setChecked(true);
 
