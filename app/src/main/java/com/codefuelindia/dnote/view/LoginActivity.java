@@ -197,10 +197,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     finish();
                                     sessionManager.createLoginSession(name, number, u_id, mobile, addr);
 
-                                    Intent i = new Intent(LoginActivity.this, DashNavigationActivity.class);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(i);
+                                    if (number.equals(password)) {
+                                        Intent i = new Intent(LoginActivity.this, ChangePwdActivity.class);
+                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(i);
+                                    } else {
+                                        Intent i = new Intent(LoginActivity.this, DashNavigationActivity.class);
+                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(i);
+                                    }
+
+
                                     break;
 
                                 case "false":
@@ -220,10 +229,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     finish();
                                     sessionManager.createLoginSession(name1, number1, u_id1, mobile1, addr1);
 
-                                    Intent i1 = new Intent(LoginActivity.this, DashNavigationActivity.class);
-                                    i1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    i1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(i1);
+                                    if (number1.equals(password)) {
+                                        Intent i1 = new Intent(LoginActivity.this, ChangePwdActivity.class);
+                                        i1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        i1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(i1);
+
+                                    } else {
+                                        Intent i1 = new Intent(LoginActivity.this, DashNavigationActivity.class);
+                                        i1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        i1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(i1);
+                                    }
+
 
                                     break;
 
