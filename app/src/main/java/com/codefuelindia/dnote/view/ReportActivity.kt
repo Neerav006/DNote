@@ -512,7 +512,7 @@ class ReportActivity : AppCompatActivity() {
                 progressDialog.show()
 
 
-                credit.addCreditData(selectedUser!!.id, edtAmount.text.toString().trim())
+                credit.addCreditData(SessionManager(this@ReportActivity).keyUId,selectedUser!!.id, edtAmount.text.toString().trim())
                     .enqueue(object : Callback<ResCommon> {
                         override fun onFailure(call: Call<ResCommon>, t: Throwable) {
                             if (progressDialog.isShowing) {

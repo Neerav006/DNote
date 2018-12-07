@@ -323,6 +323,8 @@ class DebitFormActivity : AppCompatActivity() {
 
             insertDebit.debitModelArrayList = debitList
 
+            Log.e("u_id",sessionManager.keyUId)
+
             Log.e("debit json", Gson().toJson(insertDebit))
 
             progressDialog.show()
