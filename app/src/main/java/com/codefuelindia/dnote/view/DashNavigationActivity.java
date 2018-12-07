@@ -67,7 +67,7 @@ public class DashNavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_dashboard) {
-            setTitle("Diet Manager");
+
             navigationView.getMenu().getItem(0).setChecked(true);
 
         } else if (id == R.id.nav_changePwd) {
