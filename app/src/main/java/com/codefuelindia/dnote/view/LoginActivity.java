@@ -195,7 +195,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     mobile = response.body().getMobile();
 
 
-                                    if (number.equals(password)) {
+                                    if (mobile.equals(password)) {
                                         Intent i = new Intent(LoginActivity.this, ChangePwdActivity.class);
                                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -230,10 +230,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     mobile1 = response.body().getMobile();
 
 
-                                    if (number1.equals(password)) {
+                                    if (mobile1.equals(password)) {
                                         Intent i1 = new Intent(LoginActivity.this, ChangePwdActivity.class);
                                         i1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         i1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        i1.putExtra("u_id",u_id1);
                                         startActivity(i1);
                                         finish();
 
