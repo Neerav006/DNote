@@ -2,6 +2,7 @@ package com.codefuelindia.dnote.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -85,16 +86,17 @@ public class ChangePwdActivity extends AppCompatActivity {
         } else {
             // API Call
             final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Logging you in...");
+            progressDialog.setMessage("Processing...");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
             changePasswordAPI.changePassword(u_id, oldPwd, pwd2).enqueue(new Callback<ResCommon>() {
                 @Override
-                public void onResponse(Call<ResCommon> call, Response<ResCommon> response) {
+                public void onResponse(@NonNull Call<ResCommon> call, @NonNull Response<ResCommon> response) {
                     progressDialog.dismiss();
 
                     if (response.isSuccessful()) {
+                        assert response.body() != null;
                         if (response.body().getMsg().equalsIgnoreCase("true")) {
                             MyConstants.Companion.showToast(ChangePwdActivity.this, "Successfully Changed!");
 
@@ -112,7 +114,7 @@ public class ChangePwdActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<ResCommon> call, Throwable t) {
+                public void onFailure(@NonNull Call<ResCommon> call, Throwable t) {
                     progressDialog.dismiss();
                     MyConstants.Companion.showToast(ChangePwdActivity.this, "Connection error");
 
