@@ -22,7 +22,26 @@ public class InserDebitData {
     @SerializedName("city")
     @Expose
     private String city;
+    @SerializedName("u_id")
+    @Expose
+    private String u_id;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("total")
+    @Expose
+    private String total;
+    @SerializedName("remark")
+    @Expose
+    private String remark;
 
+    public String getU_id() {
+        return u_id;
+    }
+
+    public void setU_id(String u_id) {
+        this.u_id = u_id;
+    }
 
     public String getName() {
         return name;
@@ -31,10 +50,6 @@ public class InserDebitData {
     public void setName(String name) {
         this.name = name;
     }
-
-    @SerializedName("name")
-    @Expose
-    private String name;
 
     public String getAddr() {
         return addr;
@@ -68,10 +83,6 @@ public class InserDebitData {
         this.total = total;
     }
 
-    @SerializedName("total")
-    @Expose
-    private String total;
-
     public String getRemark() {
         return remark;
     }
@@ -79,11 +90,6 @@ public class InserDebitData {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
-    @SerializedName("remark")
-    @Expose
-    private String remark;
-
 
     public String getId() {
         return id;

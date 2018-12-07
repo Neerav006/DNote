@@ -2,6 +2,7 @@ package com.codefuelindia.dnote.view
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
@@ -40,12 +41,14 @@ class DebitFormActivity : AppCompatActivity() {
     private lateinit var progressDialog: ProgressDialog
     private lateinit var addDebit: AddDebit
     private var isResponceOk = false
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debit_form)
         setSupportActionBar(toolbar)
 
+        sessionManager = SessionManager(this@DebitFormActivity)
         addDebit = RetrofitClient.getClient(MyConstants.BASE_URL).create(AddDebit::class.java)
 
 
@@ -293,6 +296,7 @@ class DebitFormActivity : AppCompatActivity() {
         if (debitList.isNotEmpty() && isResponceOk) {
 
             val insertDebit = InserDebitData()
+            insertDebit.u_id = sessionManager.keyUId
 
             if (selectedUser == null || selectedUser!!.id == null) {
                 insertDebit.id = ""
@@ -347,6 +351,11 @@ class DebitFormActivity : AppCompatActivity() {
 
                             MyConstants.showToast(this@DebitFormActivity, "Successfully added")
                             finish()
+
+                        } else if (response.body()!!.msg.equals("10x", true)) {
+                            MyConstants.showToast(this@DebitFormActivity, "Subscription expired..")
+                            finishAffinity()
+                            startActivity(Intent(this@DebitFormActivity, LoginActivity::class.java))
 
                         } else {
 

@@ -10,5 +10,5 @@ interface AddCredit {
 
     @POST("addCredit/")
     @FormUrlEncoded
-    fun addCreditData(@Field("id") id:String,@Field("amount") amount:String):Call<ResCommon>
+    fun addCreditData(@Field("u_id") u_id:String, @Field("id") id:String, @Field("amount") amount:String):Call<ResCommon>
 }

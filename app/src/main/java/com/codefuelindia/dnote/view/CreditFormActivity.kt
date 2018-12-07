@@ -689,7 +689,7 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                 progressDialog.show()
 
 
-                credit.addCreditData(selectedUser!!.id, edtAmount.text.toString().trim())
+                credit.addCreditData(sessionManager.keyUId,selectedUser!!.id, edtAmount.text.toString().trim())
                     .enqueue(object : Callback<ResCommon> {
                         override fun onFailure(call: Call<ResCommon>, t: Throwable) {
                             if (progressDialog.isShowing) {
@@ -711,7 +711,14 @@ class CreditFormActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
                                     finish()
 
 
-                                } else {
+                                }
+                                else if (response.body()!!.msg.equals("10x",true)){
+                                    MyConstants.showToast(this@CreditFormActivity,"Subscription expired..")
+                                    finishAffinity()
+                                    startActivity(Intent(this@CreditFormActivity,LoginActivity::class.java))
+
+                                }
+                                else {
 
                                     MyConstants.showToast(this@CreditFormActivity, "Try again error!")
 
