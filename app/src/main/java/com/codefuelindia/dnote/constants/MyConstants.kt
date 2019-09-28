@@ -13,7 +13,7 @@ class MyConstants {
 
     companion object {
 
-        val BASE_URL = "http://code-fuel.in/dnote/api/"
+        val BASE_URL = "http://www.dnote.xyz/api/"
             const val WRITE_EXTERNAL_STORAGE:Int = 100
 
 

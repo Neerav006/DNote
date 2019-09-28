@@ -265,7 +265,7 @@ class ProductReportActivity : AppCompatActivity() {
 
     companion object {
 
-        private val BASE_URL = "http://code-fuel.in/dnote/api/"
+        private val BASE_URL = "http://www.dnote.xyz/api/"
     }
 
 

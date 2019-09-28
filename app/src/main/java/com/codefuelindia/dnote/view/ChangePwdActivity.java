@@ -25,7 +25,7 @@ import retrofit2.http.POST;
 
 public class ChangePwdActivity extends AppCompatActivity {
 
-    private static final String BASE_URL = "http://code-fuel.in/dnote/api/";
+    private static final String BASE_URL = "http://www.dnote.xyz/api/";
     ChangePasswordAPI changePasswordAPI;
 
     EditText editText_pwd1, editText_pwd2, editText_OldPwd;

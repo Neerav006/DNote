@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String BASE_URL = "http://code-fuel.in/dnote/api/";
+    private static final String BASE_URL = "http://www.dnote.xyz/api/";
     LoginAPI loginAPI;
     SessionManager sessionManager;
     EditText editText_number, editText_password;
@@ -162,11 +162,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             editText_password.setError("Password is required");
             editText_password.requestFocus();
 
-        } else if (password.length() < 8) {
-            editText_password.setError("Length of password must be >=8 characters");
-            editText_password.requestFocus();
-
-        } else {
+        }  else {
 
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Logging you in...");

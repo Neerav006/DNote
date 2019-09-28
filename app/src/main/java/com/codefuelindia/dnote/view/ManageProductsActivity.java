@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ManageProductsActivity extends AppCompatActivity {
 
-    private static final String BASE_URL = "http://code-fuel.in/dnote/api/";
+    private static final String BASE_URL = "http://www.dnote.xyz/api/";
     ProductListAPI productListAPI;
     DeleteProductAPI deleteProductAPI;
 
